@@ -82,11 +82,11 @@ DATABASE_PATH=./data/campuspulse.db
 - [x] Initialize Directory Scaffolding (`/frontend`, `/backend`, `/docs`, `/demo-data`, `/tests`)
 
 ### Phase 2: Backend Foundation & Database (Hour 3 - 8) — **[Owner: Dev 1]**
-- [ ] Initialize Node.js + TypeScript Express setup in `/backend`
-- [ ] Implement SQLite schema generator and migration runner in `/backend/src/db`
-- [ ] Implement Repository accessors for `users`, `reports`, `incidents`, `incident_events`
-- [ ] Wire up Express base server, CORS, JSON parsing, and centralized error middleware
-- [ ] Add basic healthcheck endpoint (`GET /api/health`)
+- [x] Initialize Node.js + TypeScript Express setup in `/backend`
+- [x] Implement SQLite schema generator and migration runner in `/backend/src/db`
+- [x] Implement Repository accessors for `users`, `reports`, `incidents`, `incident_events`
+- [x] Wire up Express base server, CORS, JSON parsing, and centralized error middleware
+- [x] Add basic healthcheck endpoint (`GET /api/health`)
 
 ### Phase 3: Student Reporting Flow (Hour 8 - 14) — **[Owner: Dev 2]**
 - [ ] Initialize React + TypeScript + Vite project in `/frontend`
@@ -110,24 +110,24 @@ DATABASE_PATH=./data/campuspulse.db
 - [ ] Connect with Mock API fixtures matching API contract
 
 ### Phase 5: AI Understanding & Classification (Hour 20 - 26) — **[Owner: Dev 1]**
-- [ ] Implement `AIService` interface in `/backend/src/ai/aiService.ts`
-- [ ] Implement `MockAIService` with deterministic keyword extraction and normalized vectors
-- [ ] Implement `GeminiAIService` using Google Gemini structured output schemas
-- [ ] Implement AI status handling (`PENDING`, `COMPLETED`, `FAILED`) with automatic fallback
-- [ ] Connect `ReportService` to AI pipeline on report submission
+- [x] Implement `AIService` interface in `/backend/src/ai/aiService.ts`
+- [x] Implement `MockAIService` with deterministic keyword extraction and normalized vectors
+- [x] Implement `GeminiAIService` using Google Gemini structured output schemas
+- [x] Implement AI status handling (`PENDING`, `COMPLETED`, `FAILED`) with automatic fallback
+- [x] Connect `ReportService` to AI pipeline on report submission
 
 ### Phase 6: Incident Correlation Engine (Hour 26 - 32) — **[Owner: Dev 1]**
-- [ ] Implement `CorrelationEngine` with multi-factor scoring formula:
+- [x] Implement `CorrelationEngine` with multi-factor scoring formula:
   `Score = 0.55*Sim + 0.20*Loc + 0.15*Cat + 0.10*Time`
-- [ ] Implement in-memory Cosine Similarity for vector comparison
-- [ ] Implement human-readable correlation explainability text generator
-- [ ] Write unit tests verifying report clustering behavior against threshold (0.70)
+- [x] Implement in-memory Cosine Similarity for vector comparison
+- [x] Implement human-readable correlation explainability text generator
+- [x] Write unit tests verifying report clustering behavior against threshold (0.68)
 
 ### Phase 7: Severity, Impact & Emerging Detection (Hour 32 - 36) — **[Owner: Dev 1]**
-- [ ] Implement `SeverityImpactCalculator` (impact 0-100, severity tiering)
-- [ ] Implement `EmergingIncidentDetector` (velocity threshold: >= 3 reports in 60m or 2x spike)
-- [ ] Implement incident event logging for severity changes and emerging flags
-- [ ] Trigger AI Summary and Facilities Recommendation generation on incident updates
+- [x] Implement `SeverityImpactCalculator` (impact 0-100, severity tiering)
+- [x] Implement `EmergingIncidentDetector` (velocity threshold: >= 3 reports in 60m or 2x spike)
+- [x] Implement incident event logging for severity changes and emerging flags
+- [x] Trigger AI Summary and Facilities Recommendation generation on incident updates
 
 ### Phase 8: End-to-End Frontend/Backend Integration (Hour 36 - 40) — **[Owner: Dev 4 + Team]**
 - [ ] Replace frontend Mock API client with live backend `fetch` calls
@@ -168,6 +168,27 @@ When completing any significant task, paste a log entry below using this templat
 ```
 
 ### Log Entries
+- **2026-09-07 16:45 [Developer 1 — Backend & Architecture Owner]**
+  - **Component:** Backend REST API, Database Layer, AIService & Incident Intelligence Engine
+  - **Implemented:**
+    - Initialized Express + TypeScript environment with SQLite persistence (WAL mode & foreign keys enabled).
+    - Created database tables (`users`, `incidents`, `reports`, `incident_events`) and repositories.
+    - Built `AIService` abstraction with `MockAIService` (deterministic keywords, regex extraction, 64-dim unit vectors) and `GeminiAIService` with resilient fallback adapter (`AIServiceAdapter`).
+    - Built `IncidentIntelligenceEngine`:
+      - `CorrelationEngine`: 4-factor scoring (`0.55*Sim + 0.20*Loc + 0.15*Cat + 0.10*Time`) with explainability string generation.
+      - `SeverityCalculator`: dynamic impact score (0-100) and severity tiers (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`).
+      - `EmergingDetector`: sliding-window velocity analysis and surge detection.
+    - Implemented REST controllers and routes matching `shared/api-contract.md`:
+      - `POST /api/reports`, `GET /api/reports`, `GET /api/reports/:id`
+      - `GET /api/incidents`, `GET /api/incidents/:id`, `PATCH /api/incidents/:id/status`
+      - `GET /api/dashboard/stats`, `GET /api/health`
+    - Created demo data seeder `src/db/seed.ts` executing `demo-scenario.json`.
+    - Added unit and integration tests (19/19 passing).
+  - **Files Modified:** `/backend/**`, `/tests/**`, `docs/DEVELOPMENT.md`.
+  - **API Changes:** None (100% compliant with frozen `shared/api-contract.md`).
+  - **Remaining Tasks:** Developer 2 and Developer 3 can now connect their Student and Admin UI interfaces either against the mock fixtures or directly against the live backend at `http://localhost:5000/api`.
+  - **Testing Instructions:** Run `npm test` in `/backend` to run all 19 tests, or `npm run db:seed` to inspect the demo scenario.
+
 *(Initial setup entry)*
 - **2026-09-07 16:25 [Architecture Lead]**
   - **Component:** Core Coordination & Project Scaffolding

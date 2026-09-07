@@ -1,0 +1,40 @@
+{
+  "name": "campuspulse-backend",
+  "version": "1.0.0",
+  "description": "Express REST API & Incident Intelligence Engine for CampusPulse AI",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:init": "tsx src/db/init.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "test": "tsx --test ../tests/unit/*.test.ts ../tests/integration/*.test.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.9",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "keywords": [
+    "campuspulse",
+    "incident-detection",
+    "ai",
+    "express",
+    "sqlite"
+  ],
+  "author": "CampusPulse AI Team",
+  "license": "ISC"
+}
