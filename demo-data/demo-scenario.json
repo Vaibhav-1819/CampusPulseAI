@@ -1,0 +1,123 @@
+{
+  "description": "CampusPulse AI Canonical 48-Hour Demo Dataset",
+  "scenario_name": "CSE Block Network Outage & Emerging Crisis",
+  "reports_sequence": [
+    {
+      "step": 1,
+      "payload": {
+        "description": "WiFi isn't working at all in the CSE Block. Connected but says no internet.",
+        "building": "CSE Block",
+        "room": "2nd Floor Hallway",
+        "category": "NETWORK"
+      },
+      "expected_outcome": {
+        "ai_category": "NETWORK",
+        "action": "CREATE_INCIDENT",
+        "incident_title": "CSE Block Network Failure",
+        "report_count": 1,
+        "severity": "LOW",
+        "impact_score": 33,
+        "is_emerging": false,
+        "demo_note": "Initial isolated report. Creates anchor incident."
+      }
+    },
+    {
+      "step": 2,
+      "payload": {
+        "description": "Internet has been completely down since morning in CSE Lab 3. We cannot load our lab assignments.",
+        "building": "CSE Block",
+        "room": "Lab 3",
+        "category": "NETWORK"
+      },
+      "expected_outcome": {
+        "ai_category": "NETWORK",
+        "action": "CORRELATE_TO_INCIDENT",
+        "target_incident": "CSE Block Network Failure",
+        "report_count": 2,
+        "severity": "MEDIUM",
+        "impact_score": 49,
+        "is_emerging": false,
+        "correlation_score": 0.89,
+        "correlation_reason": "High semantic similarity (0.91), exact building match [CSE Block], category [NETWORK], within 20 minutes.",
+        "demo_note": "Second report correlates! Shows system recognizing non-isolated pattern."
+      }
+    },
+    {
+      "step": 3,
+      "payload": {
+        "description": "CSE Lab 4 cannot connect to campus WiFi or access local servers. Class is paused.",
+        "building": "CSE Block",
+        "room": "Lab 4",
+        "category": "NETWORK"
+      },
+      "expected_outcome": {
+        "ai_category": "NETWORK",
+        "action": "CORRELATE_TO_INCIDENT",
+        "target_incident": "CSE Block Network Failure",
+        "report_count": 3,
+        "severity": "HIGH",
+        "impact_score": 72,
+        "is_emerging": true,
+        "correlation_score": 0.86,
+        "demo_note": "CRITICAL MOMENT: 3rd report in 45m triggers EMERGING INCIDENT spike! Admin dashboard flashes alert."
+      }
+    },
+    {
+      "step": 4,
+      "payload": {
+        "description": "Network is extremely slow across entire CSE Block. Access points keep dropping.",
+        "building": "CSE Block",
+        "room": "Staff Room",
+        "category": "NETWORK"
+      },
+      "expected_outcome": {
+        "ai_category": "NETWORK",
+        "action": "CORRELATE_TO_INCIDENT",
+        "target_incident": "CSE Block Network Failure",
+        "report_count": 4,
+        "severity": "HIGH",
+        "impact_score": 88,
+        "is_emerging": true,
+        "demo_note": "Further strengthens the incident cluster. AI summary updates with urgent recommendation to inspect core switch."
+      }
+    },
+    {
+      "step": 5,
+      "payload": {
+        "description": "Major water pipe leaking near the 2nd floor restrooms in Central Library, water seeping into study room.",
+        "building": "Central Library",
+        "room": "2nd Floor Restroom",
+        "category": "PLUMBING"
+      },
+      "expected_outcome": {
+        "ai_category": "PLUMBING",
+        "action": "CREATE_NEW_INCIDENT",
+        "incident_title": "Central Library Water Leak",
+        "report_count": 1,
+        "severity": "MEDIUM",
+        "impact_score": 35,
+        "is_emerging": false,
+        "demo_note": "Unrelated issue: system correctly does NOT cluster this into the network incident despite concurrent timing."
+      }
+    },
+    {
+      "step": 6,
+      "payload": {
+        "description": "Air conditioning unit in Science Annex Room 102 is blowing warm air and making a loud rattling sound.",
+        "building": "Science Annex",
+        "room": "Room 102",
+        "category": "HVAC"
+      },
+      "expected_outcome": {
+        "ai_category": "HVAC",
+        "action": "CREATE_NEW_INCIDENT",
+        "incident_title": "Science Annex HVAC Failure",
+        "report_count": 1,
+        "severity": "LOW",
+        "impact_score": 25,
+        "is_emerging": false,
+        "demo_note": "Creates third independent incident. Demonstrates multi-incident categorization."
+      }
+    }
+  ]
+}
