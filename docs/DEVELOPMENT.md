@@ -98,16 +98,16 @@ DATABASE_PATH=./data/campuspulse.db
 - [ ] Connect with Mock API (`/frontend/src/services/mockApi.ts`) matching API contract
 
 ### Phase 4: Admin Dashboard Shell & Views (Hour 14 - 20) — **[Owner: Dev 3]**
-- [ ] Implement Admin Dashboard layout (`/frontend/src/features/admin/Dashboard.tsx`)
-- [ ] Build key metric stats cards (Active Incidents, Emerging Alerts, Unassigned Reports)
-- [ ] Build Incident Grid/List with status chips, severity badges, and emerging tags
-- [ ] Build Incident Detail Drawer/View with:
+- [x] Implement Admin Dashboard layout (`/frontend/src/features/admin/AdminDashboard.tsx`)
+- [x] Build key metric stats cards (Active Incidents, Emerging Alerts, Unassigned Reports, Resolved)
+- [x] Build Incident Grid/List with status chips, severity badges, and emerging tags
+- [x] Build Incident Detail Drawer/View with:
   - Correlated reports list & room tags
   - Explainability card ("Why were these reports grouped?")
   - Interactive Incident Timeline (`incident_events`)
   - AI Summary & Recommendation preview
-  - Status mutation buttons (Investigating, In Progress, Resolved)
-- [ ] Connect with Mock API fixtures matching API contract
+  - Status mutation buttons (Investigating, In Progress, Resolved, Closed)
+- [x] Connect with Mock API fixtures matching API contract
 
 ### Phase 5: AI Understanding & Classification (Hour 20 - 26) — **[Owner: Dev 1]**
 - [x] Implement `AIService` interface in `/backend/src/ai/aiService.ts`
@@ -168,6 +168,20 @@ When completing any significant task, paste a log entry below using this templat
 ```
 
 ### Log Entries
+- **2026-09-07 19:00 [Developer 3 — Admin Frontend Owner]**
+  - **Component:** Admin Incident Command Center & Telemetry UI (`/frontend/src/features/admin/**`)
+  - **Implemented:**
+    - Built Admin Dashboard shell (`AdminDashboard.tsx`) with real-time KPI metrics header (`StatsBar.tsx`).
+    - Built multi-factor filter & search controls (`FilterBar.tsx`) supporting status, severity, building filters, grid vs table view toggle, and auto-sync timer.
+    - Built high-velocity emerging spike alert banner (`EmergingAlertBanner.tsx`).
+    - Built Incident Card and Table Row views with dynamic 0-100 Impact Meter progress bars and glowing severity badges (`IncidentCard.tsx`).
+    - Built Deep Inspection Drawer (`IncidentDetailModal.tsx`) featuring executive AI summaries, recommended facilities actions, student reports list, AI explainability cards (match % & reasoning), interactive event lifecycle timeline, and administrative triage action buttons (`INVESTIGATING`, `IN_PROGRESS`, `RESOLVED`, `CLOSED`) with custom notes input.
+    - Built unified `ApiClient` (`api.ts`) connecting to Express backend (`/api/...`) with automatic zero-crash fallback to standalone offline `mockApiService` (`mockApi.ts`).
+    - Built Student Reporting UI (`StudentReportForm.tsx`) integration bridge and role view switcher (`App.tsx`).
+    - Verified build (`npm run build` passing cleanly) and backend integration (19/19 tests passing).
+  - **Files Modified:** `/frontend/**`, `docs/DEVELOPMENT.md`, `walkthrough.md`.
+  - **API Changes:** None (100% compliant with `/shared/api-contract.md`).
+  - **Testing Instructions:** Run `cd frontend && npm run dev` to start Vite dev server on `http://localhost:5173`. Toggle between live API and mock modes using top status badge.
 - **2026-09-07 16:45 [Developer 1 — Backend & Architecture Owner]**
   - **Component:** Backend REST API, Database Layer, AIService & Incident Intelligence Engine
   - **Implemented:**
