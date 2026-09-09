@@ -194,7 +194,83 @@ When completing any significant task, paste a log entry below using this templat
   - **API Changes:** None (strictly adheres to frozen `shared/api-contract.md`).
   - **Testing Instructions:** Run `npm run dev` in the root workspace; visit `http://localhost:5173`. Press `1` for Student Portal and `2` for Admin Command Center.
 
-- **2026-09-08 12:30 [Developer 2 — Sreeshanth S (Student Frontend Owner)]**
+- **2026-09-09 14:20 [Frontend & Core Integration / AI Engineer]**
+  - **Component:** Admin Control Center Contrast & Universal Command Palette Center Alignment
+  - **Implemented:**
+    - **Command Palette Alignment & Opacity Fix (`CommandPalette.tsx`, `index.css`):**
+      - Resolved top-right alignment bug by decoupling `.modal-backdrop` (`align-items: center; justify-content: center;`) from `.drawer-overlay` (`justify-content: flex-end;`).
+      - Solved transparency issue by enforcing solid `background: var(--bg-surface-1)` on `.command-palette-modal`, eliminating background text bleed-through.
+      - Wired up 100% operational command actions:
+        - Navigation shortcuts (Public Overview, Student Portal, Admin Command Center).
+        - Local ticket tracking drawer trigger.
+        - Direct building filter actions (`CSE Block`, `Central Library`, `Science Annex`, `Mechanical Lab`, `Admin Block`).
+        - Emerging spike alerts and high-velocity surge filters.
+        - Severity filters (`CRITICAL`, `HIGH`, `OPEN`).
+        - Instant dark/light theme switching synchronized with application state.
+    - **Admin Control Center Visibility & Contrast Overhaul (`/features/admin/**`):**
+      - Replaced all hardcoded text colors (`#ffffff`, `#f8fafc`, `#f1f5f9`, `#e2e8f0`) with theme variables (`var(--text-primary)`, `var(--text-secondary)`, `var(--text-muted)`) across `IncidentCard.tsx`, `IncidentDetailModal.tsx`, `StatsBar.tsx`, `FilterBar.tsx`, and `EmergingAlertBanner.tsx`.
+      - Replaced hardcoded dark background containers (`rgba(16, 23, 38, ...)`, `rgba(7, 10, 19, ...)`) with semantic surfaces (`var(--bg-surface-1)`, `var(--bg-surface-2)`, `var(--bg-surface-3)`).
+      - Updated `IncidentDetailModal.tsx` to use `.drawer-overlay`, ensuring smooth off-canvas right slide-in behavior without modal positioning conflicts.
+      - Enhanced `FilterBar.tsx` view mode switcher with theme-aware active pill styling.
+      - Enhanced `EmergingAlertBanner.tsx` button and badge contrast for both Dark and Light modes.
+      - Added missing utility classes in `index.css`: `.glass-panel`, `.category-chip`, `.impact-meter-bg`, `.impact-meter-fill`, and severity fill styles.
+    - **Verification:**
+      - Frontend build: `npm run build:frontend` passed with 0 errors (1610 modules transformed).
+      - Backend tests: 19/19 passing (unit tests for correlation engine, severity calculation, emerging detection, and REST API integration tests).
+  - **Files Modified:** `frontend/src/index.css`, `frontend/src/App.tsx`, `frontend/src/components/Navbar.tsx`, `frontend/src/components/CommandPalette.tsx`, `frontend/src/features/admin/**`, `docs/DEVELOPMENT.md`.
+  - **API Changes:** None (preserves all existing API contracts and TypeScript interfaces).
+  - **Testing Instructions:** Run `npm run dev`, visit `http://localhost:5173`. Press `Cmd+K` / `Ctrl+K` to open the centered Command Palette, select building filters or theme toggles, and verify Admin Control Center legibility in both Dark and Light themes.
+
+- **2026-09-09 13:55 [Frontend Team / Full-Stack AI Engineer]**
+  - **Component:** Nexus Workspace-Inspired UI/UX Overhaul (`d:\zoom-clone` adaptation)
+  - **Implemented:**
+    - Integrated design language and information architecture from **Nexus Workspace** (`D:\zoom-clone`):
+      - Injected signature Nexus color tokens (`--nexus-primary: #5B4DF5`, `--nexus-accent: #22D3EE`, `--nexus-surface: #111A2C`, `--nexus-card: #151B28`) and ambient radial background glows (`bg-nexus-radial`).
+      - Created **Universal Command Palette (`CommandPalette.tsx`)** inspired by Nexus `SemanticSearch.tsx` (`Cmd+K` / `Ctrl+K`), featuring instant incident lookup, campus building shortcuts, role navigation, and theme toggles.
+      - Updated `Navbar.tsx` with a quick `⌘K` search trigger button and violet-indigo Nexus branding aura.
+      - Re-architected `LandingPage.tsx` with Nexus marketing components:
+        - Animated status pill with pulsing indicator (`Nexus Intelligence · CampusPulseAI v2.4`).
+        - Nexus gradient headline (`from-nexus-primary via-indigo-500 to-purple-600`).
+        - macOS-styled interactive window mockup frame with live cluster telemetry preview.
+        - Nexus AI Architecture section (*"The Intelligence Layer That Correlates, Prioritizes, and Dispatches"*).
+        - Nexus Comparison Matrix (*"Replace Fragmented Campus Dispatches"*).
+    - Verified with `npm run build:frontend` (0 errors, 1610 modules compiled in 22s) and `npm test` in `/backend` (19/19 tests passing).
+  - **Files Modified:** `frontend/src/index.css`, `frontend/src/App.tsx`, `frontend/src/components/Navbar.tsx`, `frontend/src/components/CommandPalette.tsx`, `frontend/src/features/landing/LandingPage.tsx`, `docs/DEVELOPMENT.md`.
+  - **API Changes:** None.
+  - **Testing Instructions:** Press `Cmd+K` or `Ctrl+K` anywhere in the app to open the universal command palette, or use the search button in the top navbar.
+
+- **2026-09-09 13:45 [Frontend Team / Full-Stack AI Engineer]**
+  - **Component:** Production-Grade SaaS UI Transformation (`/frontend/src/**`, `LandingPage.tsx`, `index.css`)
+  - **Implemented:**
+    - Re-engineered the design system with centralized CSS tokens (`index.css`) inspired by Linear, Vercel, Stripe, and DaisyUI Nexus theme.
+    - Implemented full Light & Dark mode support (`data-theme="dark"` / `data-theme="light"`) with instant toggle in the application navbar and `localStorage` persistence.
+    - Created high-conversion SaaS Landing Page (`LandingPage.tsx`):
+      - Hero with tagline *"Turn Campus Incidents Into Action"*, dual primary/secondary CTAs with deep navigation.
+      - Miniature interactive Command Center simulation preview showcasing real-time correlation, velocity spike alerts, impact gauges, and KPI telemetry.
+      - 4-stage product story (*Report → Understand → Prioritize → Act*).
+      - Responsive bento grid displaying Multi-Factor Correlation, Velocity Surge Detection, Executive Incident Views, and Dual Live/Sandbox Engine states.
+      - Product proof points and capability highlights with transparent labeling between live telemetry and simulation sandbox.
+    - Transformed Student Reporting Experience into a 4-step progressive stepper flow (`ReportForm.tsx`):
+      - Step 1: Visual category selector with AI auto-detect pill and domain descriptions (`CategorySelector.tsx`).
+      - Step 2: Location selector with campus building filters, room inputs, and live preview (`LocationPicker.tsx`).
+      - Step 3: Natural language description with live character count progress and demo presets.
+      - Step 4: Incident Dossier Review card with one-click direct submission.
+    - Redesigned Submission Confirmation Modal (`ReportReceiptModal.tsx`):
+      - Ticket ID copy button, category, building/room location, timestamp, and current status.
+      - AI Incident Correlation Dossier displaying proximity match percentage and explainability rationale.
+      - Facilities action protocol recommendations.
+    - Redesigned Ticket Management Portal (`TrackReportsList.tsx`):
+      - Linear-style ticket list with search and instant ticket ID copying.
+      - Full lifecycle progression visualization (`Submitted → Under Review → Investigating → In Progress → Resolved`).
+    - Upgraded Admin Command Center (`FilterBar.tsx`, `StatsBar.tsx`, `IncidentCard.tsx`, `IncidentDetailModal.tsx`):
+      - Global `/` keyboard shortcut for search auto-focus.
+      - Seamless dual-theme support across all filter dropdowns, cards, and modal drawers.
+    - Verified with `npm run build:frontend` (0 TypeScript / 0 Vite build errors) and backend `npm test` (19/19 tests passing).
+  - **Files Modified:** `frontend/src/index.css`, `frontend/src/App.tsx`, `frontend/src/components/Navbar.tsx`, `frontend/src/features/landing/LandingPage.tsx`, `frontend/src/features/student/**`, `frontend/src/features/admin/**`, `docs/DEVELOPMENT.md`.
+  - **API Changes:** None (preserves all existing API contracts and TypeScript interfaces).
+  - **Testing Instructions:** Run `npm run dev` in the root workspace and explore `http://localhost:5173`. Use keys `0`, `1`, `2` to switch between Overview, Student Portal, and Command Center.
+
+- **2026-09-07 19:30 [Developer 2 — Sreeshanth S (Student Frontend Owner)]**
   - **Component:** Student Frontend Portal (`/frontend/src/**`)
   - **Implemented:**
     - Scaffolded React 18 + TypeScript + Vite architecture in `/frontend` with strict typings and path aliases.

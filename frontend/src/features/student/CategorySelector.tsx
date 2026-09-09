@@ -17,7 +17,7 @@ const CATEGORIES: CategoryOption[] = [
   { category: 'PHYSICAL', label: 'Structural & Doors', description: 'Broken locks, doors, furniture', accent: '#f97316' },
   { category: 'EQUIPMENT', label: 'Lab & AV Gear', description: 'Projectors, lab devices, PCs', accent: '#8b5cf6' },
   { category: 'SAFETY', label: 'Urgent Hazard', description: 'Smoke, gas, slip hazards', accent: '#ef4444' },
-  { category: 'OTHER', label: 'Other Issue', description: 'General facility maintenance', accent: '#94a3b8' }
+  { category: 'OTHER', label: 'Other Issue', description: 'General facility maintenance', accent: '#64748b' }
 ];
 
 interface CategorySelectorProps {
@@ -31,25 +31,25 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCate
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
       <div className="input-label">
-        <span>Issue Category</span>
+        <span>1. Select Category</span>
         <button
           type="button"
           onClick={() => onSelect(undefined)}
           style={{
-            background: isAutoDetect ? 'rgba(79, 70, 229, 0.2)' : 'transparent',
-            border: isAutoDetect ? '1px solid rgba(79, 70, 229, 0.5)' : '1px solid var(--card-border)',
-            color: isAutoDetect ? '#c084fc' : 'var(--text-subtle)',
-            fontSize: '0.78rem',
+            background: isAutoDetect ? 'var(--accent-primary-subtle)' : 'transparent',
+            border: isAutoDetect ? '1px solid var(--accent-primary-border)' : '1px solid var(--border-subtle)',
+            color: isAutoDetect ? 'var(--accent-primary)' : 'var(--text-muted)',
+            fontSize: '0.75rem',
             padding: '0.2rem 0.65rem',
             borderRadius: 'var(--radius-full)',
             cursor: 'pointer',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.35rem',
-            transition: 'all 0.2s ease'
+            transition: 'all var(--transition-fast)'
           }}
         >
-          <SparklesIcon size={14} />
+          <SparklesIcon size={13} />
           <span>{isAutoDetect ? 'Auto-Detect (Enabled)' : 'Let AI Auto-Detect'}</span>
         </button>
       </div>
@@ -57,7 +57,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCate
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(135px, 1fr))',
           gap: '0.75rem'
         }}
       >
@@ -73,14 +73,14 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCate
               style={{
                 cursor: 'pointer',
                 borderRadius: 'var(--radius-lg)',
-                padding: '0.85rem 0.65rem',
+                padding: '0.9rem 0.75rem',
                 background: isSelected 
-                  ? `linear-gradient(145deg, rgba(24, 36, 66, 0.95) 0%, rgba(13, 18, 34, 0.98) 100%)` 
-                  : 'rgba(15, 23, 42, 0.6)',
-                border: isSelected ? `2px solid ${item.accent}` : '1px solid var(--border-medium)',
+                  ? 'var(--bg-surface-2)' 
+                  : 'var(--bg-surface-1)',
+                border: isSelected ? `2px solid ${item.accent}` : '1px solid var(--border-subtle)',
                 boxShadow: isSelected 
-                  ? `0 0 25px -4px ${item.accent}77, inset 0 1px 0 rgba(255, 255, 255, 0.15)` 
-                  : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                  ? `0 0 15px ${item.accent}33` 
+                  : 'var(--shadow-sm)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -90,45 +90,43 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({ selectedCate
                 overflow: 'hidden'
               }}
             >
-              {/* Selected corner indicator */}
+              {/* Selected checkmark indicator */}
               {isSelected && (
                 <div style={{
                   position: 'absolute',
-                  top: '6px',
-                  right: '6px',
+                  top: '7px',
+                  right: '7px',
                   width: '7px',
                   height: '7px',
                   borderRadius: '50%',
                   background: item.accent,
-                  boxShadow: `0 0 8px ${item.accent}`
+                  boxShadow: `0 0 6px ${item.accent}`
                 }} />
               )}
 
               <div
                 style={{
-                  width: 38,
-                  height: 38,
+                  width: 36,
+                  height: 36,
                   borderRadius: 'var(--radius-md)',
-                  background: `${item.accent}22`,
+                  background: `${item.accent}18`,
                   color: item.accent,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: isSelected ? `0 0 12px ${item.accent}44` : 'none',
-                  transition: 'transform 0.2s ease'
+                  justifyContent: 'center'
                 }}
               >
-                <CategoryIcon category={item.category} size={20} />
+                <CategoryIcon category={item.category} size={18} />
               </div>
               <div style={{ 
                 fontSize: '0.825rem', 
                 fontWeight: isSelected ? 700 : 600, 
-                color: isSelected ? '#ffffff' : 'var(--text-primary)', 
+                color: 'var(--text-primary)', 
                 lineHeight: 1.25 
               }}>
                 {item.label}
               </div>
-              <div style={{ fontSize: '0.7rem', color: isSelected ? 'var(--text-secondary)' : 'var(--text-subtle)', lineHeight: 1.2 }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', lineHeight: 1.2 }}>
                 {item.description}
               </div>
             </div>

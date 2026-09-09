@@ -36,6 +36,7 @@ export const StudentPortal: React.FC = () => {
     setTickets(updated);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore storage write errors
     }
@@ -45,6 +46,7 @@ export const StudentPortal: React.FC = () => {
     setTickets([]);
     try {
       localStorage.removeItem(STORAGE_KEY);
+      window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore
     }

@@ -46,14 +46,14 @@ export const EmergingAlertBanner: React.FC<EmergingAlertBannerProps> = ({
         </div>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', margin: 0 }}>
+            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', margin: 0 }}>
               ⚡ High-Velocity Incident Surge Detected
             </h3>
             <span className="badge badge-emerging" style={{ fontSize: '0.725rem' }}>
               {emergingIncidents.length} Active {emergingIncidents.length === 1 ? 'Surge' : 'Surges'}
             </span>
           </div>
-          <p style={{ fontSize: '0.85rem', color: '#fca5a5', marginTop: '4px', marginBottom: 0, lineHeight: 1.4 }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--sev-critical)', fontWeight: 500, marginTop: '4px', marginBottom: 0, lineHeight: 1.4 }}>
             Report arrival velocity exceeded critical thresholds (≥ 3 reports in 60m window). Rapid admin triage recommended.
           </p>
         </div>
@@ -66,9 +66,9 @@ export const EmergingAlertBanner: React.FC<EmergingAlertBannerProps> = ({
             onClick={() => onSelectIncident(inc)}
             className="card-3d-lift"
             style={{
-              background: 'rgba(10, 15, 30, 0.75)',
+              background: 'var(--bg-surface-1)',
               border: '1px solid rgba(239, 68, 68, 0.5)',
-              color: '#ffffff',
+              color: 'var(--text-primary)',
               padding: '0.45rem 0.85rem',
               borderRadius: 'var(--radius-md)',
               fontSize: '0.8rem',
@@ -80,10 +80,10 @@ export const EmergingAlertBanner: React.FC<EmergingAlertBannerProps> = ({
             }}
           >
             <span>{inc.building}</span>
-            <span style={{ background: 'rgba(239, 68, 68, 0.3)', padding: '1px 6px', borderRadius: '4px', fontSize: '0.72rem', color: '#fca5a5' }}>
+            <span style={{ background: 'var(--sev-critical-bg)', border: '1px solid var(--sev-critical-border)', padding: '1px 6px', borderRadius: '4px', fontSize: '0.72rem', color: 'var(--sev-critical)', fontWeight: 700 }}>
               {inc.report_count} reps
             </span>
-            <ArrowRight size={13} color="#f87171" />
+            <ArrowRight size={13} color="var(--sev-critical)" />
           </button>
         ))}
 

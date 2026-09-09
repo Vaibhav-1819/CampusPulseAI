@@ -2,22 +2,59 @@ import React, { useEffect, useState } from 'react';
 import { reportService, BackendConnectionMode } from '../services/reportService';
 import { api } from '../services/api';
 import { SparklesIcon } from './Icons';
-import { User, Shield, Activity, Clock, Terminal } from 'lucide-react';
+import { User, Shield, Activity, Clock, Sun, Moon, Home, Search, Command } from 'lucide-react';
 
 interface NavbarProps {
-  activeView?: 'student' | 'admin';
-  onSelectView?: (view: 'student' | 'admin') => void;
+  activeView?: 'overview' | 'student' | 'admin';
+  onSelectView?: (view: 'overview' | 'student' | 'admin') => void;
   onOpenTracker?: () => void;
+  onOpenCommandPalette?: () => void;
   savedTicketCount?: number;
+  currentTheme?: 'dark' | 'light';
+  onToggleTheme?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
-  activeView = 'student', 
+  activeView = 'overview', 
   onSelectView, 
   onOpenTracker, 
-  savedTicketCount = 0 
+  onOpenCommandPalette,
+  savedTicketCount = 0,
+  currentTheme,
+  onToggleTheme
 }) => {
   const [mode, setMode] = useState<BackendConnectionMode>('detecting');
+  const [internalTheme, setInternalTheme] = useState<'dark' | 'light'>('dark');
+
+  const theme = currentTheme || internalTheme;
+
+  // Load theme preference on mount if not controlled
+  useEffect(() => {
+    if (currentTheme) return;
+    try {
+      const savedTheme = localStorage.getItem('campuspulse_theme') as 'dark' | 'light' | null;
+      const initialTheme = savedTheme || 'dark';
+      setInternalTheme(initialTheme);
+      document.documentElement.setAttribute('data-theme', initialTheme);
+    } catch {
+      // Ignore
+    }
+  }, [currentTheme]);
+
+  const toggleTheme = () => {
+    if (onToggleTheme) {
+      onToggleTheme();
+      return;
+    }
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setInternalTheme(nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    try {
+      localStorage.setItem('campuspulse_theme', nextTheme);
+    } catch {
+      // Ignore
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = reportService.subscribe((currentMode) => {
@@ -41,14 +78,13 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header
       style={{
         borderBottom: '1px solid var(--border-subtle)',
-        background: 'rgba(7, 10, 19, 0.82)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
+        backgroundColor: 'var(--bg-surface-1)',
         position: 'sticky',
         top: 0,
         zIndex: 100,
         width: '100%',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.5)'
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'background-color var(--transition-fast)'
       }}
     >
       <div
@@ -58,139 +94,143 @@ export const Navbar: React.FC<NavbarProps> = ({
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '1rem',
-          minHeight: '4.5rem',
-          paddingTop: '0.65rem',
-          paddingBottom: '0.65rem'
+          gap: '0.85rem',
+          minHeight: '4.25rem',
+          paddingTop: '0.5rem',
+          paddingBottom: '0.5rem'
         }}
       >
         {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+        <div 
+          onClick={() => onSelectView && onSelectView('overview')}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', cursor: 'pointer' }}
+        >
           <div
             style={{
-              width: 42,
-              height: 42,
+              width: 38,
+              height: 38,
               borderRadius: 'var(--radius-md)',
-              background: 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)',
+              background: 'var(--accent-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: '#ffffff',
-              boxShadow: '0 0 20px rgba(79, 70, 229, 0.45)',
-              border: '1px solid rgba(255, 255, 255, 0.25)'
+              boxShadow: '0 2px 8px rgba(79, 70, 229, 0.3)'
             }}
           >
-            <SparklesIcon size={22} />
+            <SparklesIcon size={20} />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <span style={{ fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-heading)', letterSpacing: '-0.03em', color: '#ffffff' }}>
-                CampusPulse<span style={{ background: 'linear-gradient(135deg, #38bdf8 0%, #a855f7 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ fontSize: '1.2rem', fontWeight: 800, fontFamily: 'var(--font-heading)', letterSpacing: '-0.03em', color: 'var(--text-primary)' }}>
+                CampusPulse<span style={{ color: 'var(--accent-primary)' }}>AI</span>
               </span>
               <span
                 style={{
                   fontSize: '0.68rem',
-                  padding: '0.15rem 0.55rem',
+                  padding: '0.12rem 0.5rem',
                   borderRadius: 'var(--radius-full)',
-                  background: activeView === 'admin' ? 'rgba(168, 85, 247, 0.16)' : 'rgba(56, 189, 248, 0.16)',
-                  color: activeView === 'admin' ? '#d8b4fe' : '#7dd3fc',
-                  border: activeView === 'admin' ? '1px solid rgba(168, 85, 247, 0.35)' : '1px solid rgba(56, 189, 248, 0.35)',
+                  background: 'var(--bg-surface-2)',
+                  color: 'var(--text-secondary)',
+                  border: '1px solid var(--border-subtle)',
                   fontWeight: 700,
                   letterSpacing: '0.04em'
                 }}
               >
-                {activeView === 'admin' ? 'COMMAND CENTER' : 'STUDENT PORTAL'}
+                {activeView === 'admin' ? 'COMMAND CENTER' : activeView === 'student' ? 'STUDENT PORTAL' : 'OVERVIEW'}
               </span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-subtle)', margin: 0 }}>
-                Autonomous Infrastructure Incident Intelligence
-              </p>
-              <span style={{ fontSize: '0.7rem', color: 'var(--border-strong)' }}>•</span>
-              <span style={{ fontSize: '0.72rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <span className="pulse-dot" style={{ width: 6, height: 6, backgroundColor: '#10b981' }} />
-                Operational
-              </span>
-            </div>
+            <p style={{ fontSize: '0.725rem', color: 'var(--text-muted)', margin: 0 }}>
+              Campus Infrastructure Incident Intelligence
+            </p>
           </div>
         </div>
 
         {/* Center/Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
           
-          {/* Linear-Style Segmented View Switcher */}
+          {/* Segmented View Switcher: Overview / Student Portal / Command Center */}
           {onSelectView && (
             <div 
               style={{
                 display: 'flex',
-                background: 'rgba(13, 18, 34, 0.95)',
+                background: 'var(--bg-surface-2)',
                 padding: '3px',
                 borderRadius: 'var(--radius-md)',
-                border: '1px solid var(--border-medium)',
-                gap: '3px',
-                boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.5)'
+                border: '1px solid var(--border-subtle)',
+                gap: '2px'
               }}
             >
               <button
-                onClick={() => onSelectView('student')}
-                title="Press '1' to switch to Student Portal"
+                onClick={() => onSelectView('overview')}
+                title="Press '0' to switch to Overview"
                 style={{
-                  background: activeView === 'student' ? 'linear-gradient(135deg, #4f46e5, #06b6d4)' : 'transparent',
-                  border: 'none',
-                  color: activeView === 'student' ? '#ffffff' : 'var(--text-muted)',
-                  padding: '6px 14px',
+                  background: activeView === 'overview' ? 'var(--bg-surface-1)' : 'transparent',
+                  border: '1px solid ' + (activeView === 'overview' ? 'var(--border-medium)' : 'transparent'),
+                  color: activeView === 'overview' ? 'var(--text-primary)' : 'var(--text-muted)',
+                  padding: '5px 11px',
                   borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '7px',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeView === 'student' ? '0 2px 10px rgba(79, 70, 229, 0.4)' : 'none'
+                  gap: '6px',
+                  transition: 'all var(--transition-fast)',
+                  boxShadow: activeView === 'overview' ? 'var(--shadow-sm)' : 'none'
                 }}
               >
-                <User size={14} /> 
-                <span>Student Portal</span>
-                <span style={{
-                  fontSize: '0.68rem',
-                  padding: '1px 5px',
-                  borderRadius: '4px',
-                  background: activeView === 'student' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                  color: activeView === 'student' ? '#ffffff' : 'var(--text-subtle)',
-                  fontFamily: 'var(--font-mono)'
-                }}>1</span>
+                <Home size={13} />
+                <span>Overview</span>
+                <span className="kbd-tag">0</span>
+              </button>
+
+              <button
+                onClick={() => onSelectView('student')}
+                title="Press '1' to switch to Student Portal"
+                style={{
+                  background: activeView === 'student' ? 'var(--bg-surface-1)' : 'transparent',
+                  border: '1px solid ' + (activeView === 'student' ? 'var(--border-medium)' : 'transparent'),
+                  color: activeView === 'student' ? 'var(--text-primary)' : 'var(--text-muted)',
+                  padding: '5px 11px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  transition: 'all var(--transition-fast)',
+                  boxShadow: activeView === 'student' ? 'var(--shadow-sm)' : 'none'
+                }}
+              >
+                <User size={13} /> 
+                <span>Student</span>
+                <span className="kbd-tag">1</span>
               </button>
 
               <button
                 onClick={() => onSelectView('admin')}
                 title="Press '2' to switch to Admin Command Center"
                 style={{
-                  background: activeView === 'admin' ? 'linear-gradient(135deg, #3b82f6, #8b5cf6)' : 'transparent',
-                  border: 'none',
-                  color: activeView === 'admin' ? '#ffffff' : 'var(--text-muted)',
-                  padding: '6px 14px',
+                  background: activeView === 'admin' ? 'var(--bg-surface-1)' : 'transparent',
+                  border: '1px solid ' + (activeView === 'admin' ? 'var(--border-medium)' : 'transparent'),
+                  color: activeView === 'admin' ? 'var(--text-primary)' : 'var(--text-muted)',
+                  padding: '5px 11px',
                   borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.82rem',
+                  fontSize: '0.8rem',
                   fontWeight: 600,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '7px',
-                  transition: 'all 0.2s ease',
-                  boxShadow: activeView === 'admin' ? '0 2px 10px rgba(59, 130, 246, 0.4)' : 'none'
+                  gap: '6px',
+                  transition: 'all var(--transition-fast)',
+                  boxShadow: activeView === 'admin' ? 'var(--shadow-sm)' : 'none'
                 }}
               >
-                <Shield size={14} /> 
-                <span>Admin Command</span>
-                <span style={{
-                  fontSize: '0.68rem',
-                  padding: '1px 5px',
-                  borderRadius: '4px',
-                  background: activeView === 'admin' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                  color: activeView === 'admin' ? '#ffffff' : 'var(--text-subtle)',
-                  fontFamily: 'var(--font-mono)'
-                }}>2</span>
+                <Shield size={13} /> 
+                <span>Command</span>
+                <span className="kbd-tag">2</span>
               </button>
             </div>
           )}
@@ -202,76 +242,95 @@ export const Navbar: React.FC<NavbarProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.55rem',
-              background: 'rgba(255, 255, 255, 0.04)',
-              border: '1px solid var(--border-medium)',
-              padding: '0.45rem 0.9rem',
+              gap: '0.5rem',
+              background: 'var(--bg-surface-2)',
+              border: '1px solid var(--border-subtle)',
+              padding: '0.4rem 0.8rem',
               borderRadius: 'var(--radius-full)',
               cursor: 'pointer',
               color: 'var(--text-secondary)',
-              fontSize: '0.8rem',
+              fontSize: '0.78rem',
               fontFamily: 'var(--font-sans)',
-              transition: 'all 0.2s ease'
+              transition: 'all var(--transition-fast)'
             }}
           >
             <span
               className="pulse-dot"
               style={{
                 backgroundColor:
-                  mode === 'live' ? '#10b981' : mode === 'mock' ? '#f59e0b' : 'var(--text-subtle)',
-                boxShadow: mode === 'live' ? '0 0 10px #10b981' : mode === 'mock' ? '0 0 10px #f59e0b' : 'none'
+                  mode === 'live' ? '#10b981' : mode === 'mock' ? '#f59e0b' : 'var(--text-subtle)'
               }}
             />
-            <span style={{ fontWeight: 600, fontSize: '0.78rem' }}>
+            <span style={{ fontWeight: 600, fontSize: '0.75rem' }}>
               {mode === 'live'
-                ? '🟢 Live Cluster Engine'
+                ? '● Live Engine'
                 : mode === 'mock'
-                ? '⚡ Demo Sandbox'
-                : 'Detecting Engine...'}
+                ? '⚡ Sandbox'
+                : 'Detecting...'}
             </span>
-            <span
+          </button>
+
+          {/* Quick Universal Search Trigger (Cmd+K) inspired by Nexus */}
+          {onOpenCommandPalette && (
+            <button
+              onClick={onOpenCommandPalette}
+              title="Universal Workspace Search & Quick Jump (Cmd+K / Ctrl+K)"
               style={{
-                fontSize: '0.68rem',
-                fontFamily: 'var(--font-mono)',
-                color: mode === 'live' ? '#34d399' : '#fbbf24',
-                background: 'rgba(0, 0, 0, 0.3)',
-                padding: '1px 5px',
-                borderRadius: '4px'
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'var(--bg-surface-2)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-secondary)',
+                padding: '0.4rem 0.75rem',
+                borderRadius: 'var(--radius-md)',
+                cursor: 'pointer',
+                fontSize: '0.78rem',
+                transition: 'all var(--transition-fast)'
               }}
             >
-              {mode === 'live' ? '<8ms' : 'mock'}
-            </span>
+              <Search size={14} style={{ color: 'var(--nexus-primary)' }} />
+              <span style={{ fontSize: '0.75rem' }}>Search</span>
+              <span className="kbd-tag">⌘K</span>
+            </button>
+          )}
+
+          {/* Light / Dark Mode Toggle (Nexus) */}
+          <button
+            onClick={toggleTheme}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            style={{
+              background: 'var(--bg-surface-2)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-secondary)',
+              padding: '0.4rem 0.6rem',
+              borderRadius: 'var(--radius-md)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all var(--transition-fast)'
+            }}
+          >
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
           {/* Track Tickets Button (Shown in student mode) */}
           {activeView === 'student' && onOpenTracker && (
             <button
               onClick={onOpenTracker}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                background: 'rgba(99, 102, 241, 0.12)',
-                border: '1px solid rgba(99, 102, 241, 0.35)',
-                color: '#c7d2fe',
-                padding: '0.45rem 0.95rem',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 2px 10px rgba(99, 102, 241, 0.15)'
-              }}
+              className="btn btn-secondary btn-sm"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}
             >
-              <Clock size={14} />
+              <Clock size={13} />
               <span>My Reports</span>
               {savedTicketCount > 0 && (
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #4f46e5, #06b6d4)',
+                    background: 'var(--accent-primary)',
                     color: '#ffffff',
-                    fontSize: '0.72rem',
-                    padding: '0.1rem 0.45rem',
+                    fontSize: '0.7rem',
+                    padding: '0.1rem 0.4rem',
                     borderRadius: 'var(--radius-full)',
                     fontWeight: 700
                   }}

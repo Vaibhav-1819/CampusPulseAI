@@ -52,10 +52,17 @@ Admin Command Center Review, Audit Timeline & Status Triage
   - Multi-factor search and filter controls (Status, Severity, Building, Grid vs Table views).
   - High-visibility emerging alert banners for active crises.
   - Interactive Incident Detail Drawer featuring chronological event timelines (`incident_events`), student report receipts, and administrative triage action buttons (`INVESTIGATING`, `IN_PROGRESS`, `RESOLVED`, `CLOSED`).
+- **⌘ Universal Command Palette (`Cmd+K` / `Ctrl+K`):**
+  - Raycast/Linear-style centered command palette for instant incident lookup, campus building filters (`CSE Block`, `Library`, etc.), velocity surge alerts, role navigation, and theme switching.
+- **🎨 Modern SaaS UI & Dual Theme System:**
+  - Designed with tokens inspired by Linear and Nexus Workspace (`#5B4DF5` violet-indigo accent, ambient lighting).
+  - High-contrast Dark Slate and Light Slate design systems with instant 1-click toggling and `localStorage` persistence.
+- **🌐 Public Overview & Capability Proof Page (`/frontend/src/features/landing`):**
+  - High-conversion product showcase with interactive macOS telemetry preview, 4-stage lifecycle breakdown, multi-factor correlation formulas, and comparative dispatch matrix.
 - **📱 Student Reporting Portal (`/frontend/src/features/student`):**
   - Category selector with icon badges (`NETWORK`, `ELECTRICAL`, `PLUMBING`, `HVAC`, `PHYSICAL`, `EQUIPMENT`, `SAFETY`, `OTHER`).
-  - Campus building and room auto-suggest.
-  - Client-side validation, error handling, and ticket tracking receipts.
+  - Campus building and room auto-suggest with demo presets.
+  - Client-side validation, error handling, ticket tracking receipts, and local device history.
 - **⚡ Lean, Zero-Overhead Persistence:**
   - Powered by SQLite 3 with Write-Ahead Logging (`WAL`) and foreign key enforcement. No PostgreSQL, Redis, Kafka, or external vector databases needed.
 

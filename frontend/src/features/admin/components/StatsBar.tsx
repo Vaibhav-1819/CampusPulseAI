@@ -54,19 +54,19 @@ export const StatsBar: React.FC<StatsBarProps> = ({
             position: 'relative', 
             overflow: 'hidden',
             border: '1px solid rgba(59, 130, 246, 0.25)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)'
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#93c5fd', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#3b82f6', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Active Incidents
               </div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#f8fafc', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
                 {active_incidents}
               </div>
             </div>
-            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
+            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
               <Activity size={24} />
             </div>
           </div>
@@ -86,29 +86,29 @@ export const StatsBar: React.FC<StatsBarProps> = ({
           style={{ 
             padding: '1.35rem', 
             cursor: onFilterEmerging ? 'pointer' : 'default',
-            border: emerging_incidents > 0 ? '1px solid rgba(239, 68, 68, 0.55)' : '1px solid var(--border-medium)',
-            background: emerging_incidents > 0 ? 'linear-gradient(145deg, rgba(239, 68, 68, 0.15) 0%, rgba(13, 18, 34, 0.95) 100%)' : undefined,
-            boxShadow: emerging_incidents > 0 ? '0 0 30px rgba(239, 68, 68, 0.2)' : '0 4px 20px rgba(0, 0, 0, 0.25)'
+            border: emerging_incidents > 0 ? '1px solid var(--sev-critical)' : '1px solid var(--border-medium)',
+            background: emerging_incidents > 0 ? 'var(--sev-critical-bg)' : undefined,
+            boxShadow: emerging_incidents > 0 ? '0 0 30px rgba(239, 68, 68, 0.2)' : 'var(--shadow-sm)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: emerging_incidents > 0 ? '#fca5a5' : 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: emerging_incidents > 0 ? 'var(--sev-critical)' : 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Emerging Spikes
               </div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: emerging_incidents > 0 ? '#f87171' : '#f8fafc', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: emerging_incidents > 0 ? 'var(--sev-critical)' : 'var(--text-primary)', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
                 {emerging_incidents}
               </div>
             </div>
-            <div style={{ padding: '12px', borderRadius: '12px', background: emerging_incidents > 0 ? 'rgba(239, 68, 68, 0.25)' : 'rgba(100, 116, 139, 0.15)', color: emerging_incidents > 0 ? '#ef4444' : '#94a3b8', border: emerging_incidents > 0 ? '1px solid rgba(239, 68, 68, 0.4)' : undefined }}>
+            <div style={{ padding: '12px', borderRadius: '12px', background: emerging_incidents > 0 ? 'rgba(239, 68, 68, 0.2)' : 'var(--bg-surface-2)', color: emerging_incidents > 0 ? 'var(--sev-critical)' : 'var(--text-muted)', border: emerging_incidents > 0 ? '1px solid rgba(239, 68, 68, 0.4)' : undefined }}>
               <ShieldAlert size={24} className={emerging_incidents > 0 ? 'spin-pulse' : ''} />
             </div>
           </div>
-          <div style={{ fontSize: '0.75rem', color: emerging_incidents > 0 ? '#fca5a5' : 'var(--text-secondary)', marginTop: '14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ fontSize: '0.75rem', color: emerging_incidents > 0 ? 'var(--sev-critical)' : 'var(--text-secondary)', marginTop: '14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>
               {emerging_incidents > 0 ? '⚡ High velocity surge detected' : 'No active spikes'}
             </span>
-            {emerging_incidents > 0 && <span className="kbd-tag" style={{ color: '#f87171' }}>Filter</span>}
+            {emerging_incidents > 0 && <span className="kbd-tag" style={{ color: 'var(--sev-critical)' }}>Filter</span>}
           </div>
         </div>
 
@@ -118,19 +118,19 @@ export const StatsBar: React.FC<StatsBarProps> = ({
           style={{ 
             padding: '1.35rem',
             border: '1px solid rgba(139, 92, 246, 0.25)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)'
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c4b5fd', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-purple)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Student Reports Today
               </div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#f8fafc', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--text-primary)', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
                 {total_reports_today}
               </div>
             </div>
-            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.15)', color: '#a78bfa', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(139, 92, 246, 0.15)', color: 'var(--accent-purple)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
               <FileText size={24} />
             </div>
           </div>
@@ -146,25 +146,25 @@ export const StatsBar: React.FC<StatsBarProps> = ({
           style={{ 
             padding: '1.35rem',
             border: '1px solid rgba(16, 185, 129, 0.25)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)'
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div>
-              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--status-resolved)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 Resolved Today
               </div>
-              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#34d399', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
+              <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--status-resolved)', marginTop: '4px', lineHeight: 1, fontFamily: 'var(--font-heading)' }}>
                 {resolved_today}
               </div>
             </div>
-            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+            <div style={{ padding: '12px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', color: 'var(--status-resolved)', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
               <CheckCircle size={24} />
             </div>
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>Closed & verified incidents</span>
-            <span className="kbd-tag" style={{ color: '#34d399' }}>Healthy</span>
+            <span className="kbd-tag" style={{ color: 'var(--status-resolved)' }}>Healthy</span>
           </div>
         </div>
       </div>
@@ -176,17 +176,17 @@ export const StatsBar: React.FC<StatsBarProps> = ({
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
             <span>SEVERITY DISTRIBUTION</span>
             <div style={{ display: 'flex', gap: '12px' }}>
-              <span onClick={() => onFilterSeverity && onFilterSeverity('CRITICAL')} style={{ cursor: 'pointer', color: '#ef4444' }}>CRITICAL ({severity_breakdown?.CRITICAL || 0})</span>
-              <span onClick={() => onFilterSeverity && onFilterSeverity('HIGH')} style={{ cursor: 'pointer', color: '#f97316' }}>HIGH ({severity_breakdown?.HIGH || 0})</span>
-              <span onClick={() => onFilterSeverity && onFilterSeverity('MEDIUM')} style={{ cursor: 'pointer', color: '#eab308' }}>MED ({severity_breakdown?.MEDIUM || 0})</span>
-              <span onClick={() => onFilterSeverity && onFilterSeverity('LOW')} style={{ cursor: 'pointer', color: '#06b6d4' }}>LOW ({severity_breakdown?.LOW || 0})</span>
+              <span onClick={() => onFilterSeverity && onFilterSeverity('CRITICAL')} style={{ cursor: 'pointer', color: 'var(--sev-critical)' }}>CRITICAL ({severity_breakdown?.CRITICAL || 0})</span>
+              <span onClick={() => onFilterSeverity && onFilterSeverity('HIGH')} style={{ cursor: 'pointer', color: 'var(--sev-high)' }}>HIGH ({severity_breakdown?.HIGH || 0})</span>
+              <span onClick={() => onFilterSeverity && onFilterSeverity('MEDIUM')} style={{ cursor: 'pointer', color: 'var(--sev-medium)' }}>MED ({severity_breakdown?.MEDIUM || 0})</span>
+              <span onClick={() => onFilterSeverity && onFilterSeverity('LOW')} style={{ cursor: 'pointer', color: 'var(--sev-low)' }}>LOW ({severity_breakdown?.LOW || 0})</span>
             </div>
           </div>
-          <div style={{ display: 'flex', height: '8px', borderRadius: '4px', overflow: 'hidden', background: 'rgba(255, 255, 255, 0.05)' }}>
-            <div style={{ width: `${critPct}%`, background: 'var(--sev-critical-color)', transition: 'width 0.3s' }} title={`Critical: ${critPct}%`} />
-            <div style={{ width: `${highPct}%`, background: 'var(--sev-high-color)', transition: 'width 0.3s' }} title={`High: ${highPct}%`} />
-            <div style={{ width: `${medPct}%`, background: 'var(--sev-medium-color)', transition: 'width 0.3s' }} title={`Medium: ${medPct}%`} />
-            <div style={{ width: `${lowPct}%`, background: 'var(--sev-low-color)', transition: 'width 0.3s' }} title={`Low: ${lowPct}%`} />
+          <div style={{ display: 'flex', height: '8px', borderRadius: '4px', overflow: 'hidden', background: 'var(--border-medium)' }}>
+            <div style={{ width: `${critPct}%`, background: 'var(--sev-critical)', transition: 'width 0.3s' }} title={`Critical: ${critPct}%`} />
+            <div style={{ width: `${highPct}%`, background: 'var(--sev-high)', transition: 'width 0.3s' }} title={`High: ${highPct}%`} />
+            <div style={{ width: `${medPct}%`, background: 'var(--sev-medium)', transition: 'width 0.3s' }} title={`Medium: ${medPct}%`} />
+            <div style={{ width: `${lowPct}%`, background: 'var(--sev-low)', transition: 'width 0.3s' }} title={`Low: ${lowPct}%`} />
           </div>
         </div>
 
@@ -197,7 +197,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({
             {Object.entries(category_breakdown).map(([cat, count]) => (
               <div key={cat} className="category-chip">
                 <span>{cat}</span>
-                <span style={{ fontWeight: 700, color: '#fff', background: 'rgba(255, 255, 255, 0.1)', padding: '0 5px', borderRadius: '4px' }}>
+                <span style={{ fontWeight: 700, color: 'var(--text-primary)', background: 'var(--bg-surface-2)', border: '1px solid var(--border-subtle)', padding: '0 5px', borderRadius: '4px' }}>
                   {String(count)}
                 </span>
               </div>

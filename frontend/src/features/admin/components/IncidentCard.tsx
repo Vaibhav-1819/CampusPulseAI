@@ -34,7 +34,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident, onSelect }
         position: 'relative',
         border: incident.is_emerging ? '1px solid rgba(239, 68, 68, 0.55)' : '1px solid var(--border-medium)',
         borderLeft: incident.is_emerging ? '4px solid #ef4444' : undefined,
-        boxShadow: incident.is_emerging ? '0 0 25px rgba(239, 68, 68, 0.15)' : '0 4px 20px rgba(0, 0, 0, 0.25)',
+        boxShadow: incident.is_emerging ? '0 0 25px rgba(239, 68, 68, 0.2)' : 'var(--shadow-sm)',
         overflow: 'hidden'
       }}
     >
@@ -64,7 +64,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident, onSelect }
         <h3 style={{ 
           fontSize: '1.125rem', 
           fontWeight: 800, 
-          color: '#f8fafc', 
+          color: 'var(--text-primary)', 
           marginBottom: '8px', 
           lineHeight: 1.3,
           letterSpacing: '-0.02em'
@@ -74,7 +74,7 @@ export const IncidentCard: React.FC<IncidentCardProps> = ({ incident, onSelect }
 
         {/* Building & Category Info */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '12px', flexWrap: 'wrap' }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '2px 8px', borderRadius: '4px', fontWeight: 500 }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'var(--bg-surface-2)', border: '1px solid var(--border-subtle)', padding: '2px 8px', borderRadius: '4px', fontWeight: 500 }}>
             <Building2 size={13} color="var(--accent-blue)" /> {incident.building}
           </span>
           <span className="category-chip">

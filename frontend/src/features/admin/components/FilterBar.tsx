@@ -47,6 +47,24 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   autoSync,
   onAutoSyncToggle
 }) => {
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (document.activeElement?.tagName || '').toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+        return;
+      }
+      if (e.key === '/') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className="glass-panel" style={{ padding: '1rem', marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {/* Top Filter Controls */}
@@ -56,8 +74,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <div style={{ position: 'relative', flex: '1 1 280px' }}>
           <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-subtle)' }} />
           <input
+            ref={searchInputRef}
             type="text"
-            placeholder="Search by Title, Building, ID, or Category..."
+            placeholder="Search by Title, Building, ID, or Category... (Press / to focus)"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="input-control"
@@ -111,12 +130,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             className="input-control"
             style={{ minWidth: '130px' }}
           >
-            <option value="ALL" style={{ background: '#101726' }}>All Statuses</option>
-            <option value="OPEN" style={{ background: '#101726' }}>Open</option>
-            <option value="INVESTIGATING" style={{ background: '#101726' }}>Investigating</option>
-            <option value="IN_PROGRESS" style={{ background: '#101726' }}>In Progress</option>
-            <option value="RESOLVED" style={{ background: '#101726' }}>Resolved</option>
-            <option value="CLOSED" style={{ background: '#101726' }}>Closed</option>
+            <option value="ALL" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>All Statuses</option>
+            <option value="OPEN" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Open</option>
+            <option value="INVESTIGATING" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Investigating</option>
+            <option value="IN_PROGRESS" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>In Progress</option>
+            <option value="RESOLVED" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Resolved</option>
+            <option value="CLOSED" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Closed</option>
           </select>
 
           {/* Severity Filter */}
@@ -126,11 +145,11 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             className="input-control"
             style={{ minWidth: '130px' }}
           >
-            <option value="ALL" style={{ background: '#101726' }}>All Severities</option>
-            <option value="CRITICAL" style={{ background: '#101726' }}>Critical</option>
-            <option value="HIGH" style={{ background: '#101726' }}>High</option>
-            <option value="MEDIUM" style={{ background: '#101726' }}>Medium</option>
-            <option value="LOW" style={{ background: '#101726' }}>Low</option>
+            <option value="ALL" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>All Severities</option>
+            <option value="CRITICAL" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Critical</option>
+            <option value="HIGH" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>High</option>
+            <option value="MEDIUM" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Medium</option>
+            <option value="LOW" style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>Low</option>
           </select>
 
           {/* Building Filter */}
@@ -141,7 +160,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             style={{ minWidth: '140px' }}
           >
             {BUILDINGS_LIST.map(b => (
-              <option key={b} value={b === 'All Buildings' ? 'ALL' : b} style={{ background: '#101726' }}>
+              <option key={b} value={b === 'All Buildings' ? 'ALL' : b} style={{ background: 'var(--bg-surface-1)', color: 'var(--text-primary)' }}>
                 {b}
               </option>
             ))}
@@ -161,13 +180,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           
           {/* View Mode Toggle */}
-          <div style={{ display: 'flex', background: 'rgba(0, 0, 0, 0.3)', padding: '2px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ display: 'flex', background: 'var(--bg-surface-2)', padding: '2px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
             <button
               onClick={() => onViewModeChange('grid')}
               style={{
-                background: viewMode === 'grid' ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
-                border: 'none',
-                color: viewMode === 'grid' ? '#fff' : 'var(--text-muted)',
+                background: viewMode === 'grid' ? 'var(--accent-primary-subtle)' : 'transparent',
+                border: viewMode === 'grid' ? '1px solid var(--accent-primary-border)' : '1px solid transparent',
+                color: viewMode === 'grid' ? 'var(--accent-primary)' : 'var(--text-muted)',
                 padding: '6px 10px',
                 borderRadius: '6px',
                 cursor: 'pointer',
@@ -181,9 +200,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <button
               onClick={() => onViewModeChange('table')}
               style={{
-                background: viewMode === 'table' ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
-                border: 'none',
-                color: viewMode === 'table' ? '#fff' : 'var(--text-muted)',
+                background: viewMode === 'table' ? 'var(--accent-primary-subtle)' : 'transparent',
+                border: viewMode === 'table' ? '1px solid var(--accent-primary-border)' : '1px solid transparent',
+                color: viewMode === 'table' ? 'var(--accent-primary)' : 'var(--text-muted)',
                 padding: '6px 10px',
                 borderRadius: '6px',
                 cursor: 'pointer',

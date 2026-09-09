@@ -8,7 +8,19 @@ import { EmergingAlertBanner } from './components/EmergingAlertBanner';
 import { IncidentDetailModal } from './components/IncidentDetailModal';
 import { ShieldAlert, RefreshCw, LayoutGrid, List, FileText, ChevronRight, Activity } from 'lucide-react';
 
-export const AdminDashboard: React.FC = () => {
+interface AdminDashboardProps {
+  initialBuildingFilter?: string;
+  initialEmergingOnly?: boolean;
+  initialSeverityFilter?: string;
+  initialStatusFilter?: string;
+}
+
+export const AdminDashboard: React.FC<AdminDashboardProps> = ({
+  initialBuildingFilter = 'ALL',
+  initialEmergingOnly = false,
+  initialSeverityFilter = 'ALL',
+  initialStatusFilter = 'ALL'
+}) => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [incidents, setIncidents] = useState<Incident[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,12 +29,29 @@ export const AdminDashboard: React.FC = () => {
   
   // Filters State
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('ALL');
-  const [severityFilter, setSeverityFilter] = useState('ALL');
-  const [buildingFilter, setBuildingFilter] = useState('ALL');
-  const [emergingOnly, setEmergingOnly] = useState(false);
+  const [statusFilter, setStatusFilter] = useState(initialStatusFilter);
+  const [severityFilter, setSeverityFilter] = useState(initialSeverityFilter);
+  const [buildingFilter, setBuildingFilter] = useState(initialBuildingFilter);
+  const [emergingOnly, setEmergingOnly] = useState(initialEmergingOnly);
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('grid');
   const [autoSync, setAutoSync] = useState(true);
+
+  // Sync when initial props change from CommandPalette
+  useEffect(() => {
+    if (initialBuildingFilter) setBuildingFilter(initialBuildingFilter);
+  }, [initialBuildingFilter]);
+
+  useEffect(() => {
+    if (initialEmergingOnly !== undefined) setEmergingOnly(initialEmergingOnly);
+  }, [initialEmergingOnly]);
+
+  useEffect(() => {
+    if (initialSeverityFilter) setSeverityFilter(initialSeverityFilter);
+  }, [initialSeverityFilter]);
+
+  useEffect(() => {
+    if (initialStatusFilter) setStatusFilter(initialStatusFilter);
+  }, [initialStatusFilter]);
 
   // Fetch telemetry and incidents data
   const fetchData = useCallback(async (isSilent = false) => {
@@ -116,7 +145,7 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Incident List Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Activity size={20} color="var(--accent-blue)" /> Active Campus Incidents
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 400 }}>
             ({filteredIncidents.length} {filteredIncidents.length === 1 ? 'incident' : 'incidents'})
@@ -133,7 +162,7 @@ export const AdminDashboard: React.FC = () => {
       ) : filteredIncidents.length === 0 ? (
         <div className="glass-panel" style={{ textAlign: 'center', padding: '4rem 1.5rem', color: 'var(--text-secondary)' }}>
           <ShieldAlert size={48} style={{ opacity: 0.5, marginBottom: '1rem', color: 'var(--accent-blue)' }} />
-          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>No Incidents Found</h3>
+          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px' }}>No Incidents Found</h3>
           <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto 1.5rem' }}>
             No incidents match your current search and filter criteria. Try resetting filters.
           </p>
@@ -184,15 +213,15 @@ export const AdminDashboard: React.FC = () => {
               {filteredIncidents.map(inc => (
                 <tr key={inc.id} onClick={() => setSelectedIncident(inc)} style={{ cursor: 'pointer' }}>
                   <td>
-                    <div style={{ fontWeight: 700, color: '#fff' }}>{inc.title}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{inc.id}</div>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{inc.title}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{inc.id}</div>
                   </td>
                   <td>{inc.building}</td>
                   <td><span className="category-chip">{inc.category}</span></td>
                   <td><span className={`badge badge-sev-${inc.severity}`}>{inc.severity}</span></td>
                   <td><span className={`badge badge-status-${inc.status.toLowerCase()}`}>{inc.status}</span></td>
                   <td>
-                    <strong style={{ color: inc.impact_score >= 75 ? '#ef4444' : '#60a5fa' }}>
+                    <strong style={{ color: inc.impact_score >= 75 ? 'var(--sev-critical)' : inc.impact_score >= 50 ? 'var(--sev-high)' : 'var(--accent-blue)' }}>
                       {inc.impact_score}
                     </strong>/100
                   </td>
