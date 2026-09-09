@@ -130,26 +130,26 @@ DATABASE_PATH=./data/campuspulse.db
 - [x] Trigger AI Summary and Facilities Recommendation generation on incident updates
 
 ### Phase 8: End-to-End Frontend/Backend Integration (Hour 36 - 40) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
-- [ ] Replace frontend Mock API client with live backend `fetch` calls
-- [ ] Verify CORS, headers, and error payload parsing
-- [ ] Verify that submitting a report via Student UI immediately creates/updates an incident
-- [ ] Verify that Admin UI live updates incident list, severity, and timeline
-- [ ] Fix integration edge cases and boundary mismatches
+- [x] Replace frontend Mock API client with live backend `fetch` calls & proxy configuration
+- [x] Verify CORS, headers, and error payload parsing
+- [x] Verify that submitting a report via Student UI immediately creates/updates an incident
+- [x] Verify that Admin UI live updates incident list, severity, and timeline
+- [x] Fix integration edge cases and boundary mismatches
 
 ### Phase 9: Demo Data Seeder & Polish (Hour 40 - 44) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
-- [ ] Build CLI command: `npm run db:seed-demo`
-- [ ] Test canonical demo sequence:
+- [x] Build CLI command: `npm run db:seed`
+- [x] Test canonical demo sequence:
   - 1st report: "WiFi slow in CSE Block" → New Incident Created
   - 2nd report: "Internet down in CSE Lab 3" → Correlated to Incident
   - 3rd report: "Cannot connect to campus WiFi in CSE" → Incident impact rises, flagged as **EMERGING**
   - 4th report: Unrelated "Water leak in Library 2nd floor" → Creates separate Plumbing Incident
-- [ ] Verify AI explainability text accurately highlights why CSE reports were clustered
+- [x] Verify AI explainability text accurately highlights why CSE reports were clustered
 
 ### Phase 10: Final Verification, Polish & Demo Script (Hour 44 - 48) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
-- [ ] Run full automated test suite (`npm test`)
-- [ ] Verify UI responsiveness, dark/light contrast, empty states, and loading spinners
-- [ ] Write Demo Walkthrough Script in `/docs/DEMO_SCRIPT.md`
-- [ ] Complete Hackathon submission documentation and README
+- [x] Run full automated test suite (`npm test` — 19/19 passing)
+- [x] Verify UI responsiveness, dark/light contrast, empty states, and loading spinners
+- [x] Write Demo Walkthrough Script in `/docs/DEMO_SCRIPT.md`
+- [x] Complete Hackathon submission documentation and README
 
 ---
 
