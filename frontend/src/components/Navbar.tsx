@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { reportService, BackendConnectionMode } from '../services/reportService';
+import { api } from '../services/api';
 import { SparklesIcon } from './Icons';
 import { User, Shield } from 'lucide-react';
 
@@ -21,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   useEffect(() => {
     const unsubscribe = reportService.subscribe((currentMode) => {
       setMode(currentMode);
+      api.setForceMockMode(currentMode === 'mock');
     });
     return unsubscribe;
   }, []);
@@ -28,8 +30,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleToggleMode = () => {
     if (mode === 'live') {
       reportService.setMode('mock');
+      api.setForceMockMode(true);
     } else {
       reportService.detectBackend();
+      api.setForceMockMode(false);
     }
   };
 
