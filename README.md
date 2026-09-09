@@ -242,10 +242,10 @@ All endpoints return a uniform response envelope:
 ## 👥 Team & Ownership
 
 Built for the 48-Hour Hackathon following strict architectural separation of concerns:
-- **Developer 1 (Backend & Architecture Owner):** Express REST API, SQLite schema, `AIService`, `IncidentIntelligenceEngine`.
-- **Developer 2 (Student Frontend Owner):** Student reporting UX, category cards, client-side validation, ticket confirmation receipts.
-- **Developer 3 (Admin Frontend Owner):** Admin command center, KPI telemetry, filter bar, inspection drawer, timeline visualizer.
-- **Developer 4 (Integration, QA & Demo Owner):** Demo data scenarios, integration test suite, seed scripts, and verification.
+- **Developer 1 — Backend & Architecture Owner:** Vaibhav Bharathula (`bharathulavaibhav@gmail.com`) — Express REST API, SQLite schema, `AIService`, `IncidentIntelligenceEngine`.
+- **Developer 2 — Student Frontend Owner:** Sreeshanth S (`sreeshanthsanapala883@gmail.com`) — Student reporting portal, category cards, client-side validation, ticket receipt modal, and tracker drawer.
+- **Developer 3 — Admin Frontend Owner:** Vignesh Mandadapu (`mandadapuvignesh@gmail.com`) — Admin command center, KPI telemetry, filter controls, deep inspection drawer, and event timeline.
+- **Developer 4 — Integration, QA & Demo Owners:** Sumanth Teju (`23951a12d7@iare.ac.in`) & Vaibhav Bharathula (`bharathulavaibhav@gmail.com`) — Demo data scenarios, integration test suite, seed scripts, and end-to-end verification.
 
 ---
 
