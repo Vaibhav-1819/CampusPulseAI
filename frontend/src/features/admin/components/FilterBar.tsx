@@ -53,16 +53,52 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', justifyContent: 'space-between' }}>
         
         {/* Search Input */}
-        <div style={{ position: 'relative', flex: '1 1 260px' }}>
-          <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+        <div style={{ position: 'relative', flex: '1 1 280px' }}>
+          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-subtle)' }} />
           <input
             type="text"
             placeholder="Search by Title, Building, ID, or Category..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             className="input-control"
-            style={{ width: '100%', paddingLeft: '38px' }}
+            style={{ 
+              width: '100%', 
+              paddingLeft: '38px', 
+              paddingRight: searchQuery ? '60px' : '45px',
+              fontSize: '0.85rem'
+            }}
           />
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => onSearchChange('')}
+              style={{
+                position: 'absolute',
+                right: '12px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--text-subtle)',
+                fontSize: '0.85rem',
+                cursor: 'pointer'
+              }}
+            >
+              ✕
+            </button>
+          ) : (
+            <span 
+              className="kbd-tag" 
+              style={{ 
+                position: 'absolute', 
+                right: '10px', 
+                top: '50%', 
+                transform: 'translateY(-50%)' 
+              }}
+            >
+              /
+            </span>
+          )}
         </div>
 
         {/* Dropdown Filters */}

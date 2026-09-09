@@ -31,6 +31,26 @@ export function App() {
     return () => window.removeEventListener('storage', loadTickets);
   }, [showTracker]);
 
+  // Global Keyboard Shortcuts: '1' -> Student, '2' -> Admin, 'Escape' -> Close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = (document.activeElement?.tagName || '').toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+        return;
+      }
+      if (e.key === '1') {
+        setActiveView('student');
+      } else if (e.key === '2') {
+        setActiveView('admin');
+      } else if (e.key === 'Escape') {
+        setShowTracker(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleClearHistory = () => {
     setTickets([]);
     try {

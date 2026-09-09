@@ -89,20 +89,21 @@ export const ReportReceiptModal: React.FC<ReportReceiptModalProps> = ({
           {/* Ticket ID Box */}
           <div
             style={{
-              background: 'rgba(15, 23, 42, 0.8)',
-              border: '1px solid var(--card-border)',
-              borderRadius: 'var(--radius-md)',
-              padding: '0.85rem 1.1rem',
+              background: 'linear-gradient(135deg, rgba(13, 18, 34, 0.9) 0%, rgba(20, 28, 51, 0.8) 100%)',
+              border: '1px solid var(--border-medium)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1rem 1.25rem',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
+              boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.05)'
             }}
           >
             <div>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                Your Tracking Ticket ID
+              <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600 }}>
+                Incident Tracking ID
               </span>
-              <div style={{ fontSize: '1.15rem', fontWeight: 700, fontFamily: 'monospace', color: 'var(--accent-cyan)' }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--accent-cyan)', letterSpacing: '0.02em', marginTop: '2px' }}>
                 {report.id}
               </div>
             </div>
@@ -112,91 +113,129 @@ export const ReportReceiptModal: React.FC<ReportReceiptModalProps> = ({
               onClick={handleCopyId}
               icon={<CopyIcon size={14} />}
             >
-              {copied ? 'Copied!' : 'Copy'}
+              {copied ? 'Copied!' : 'Copy Ticket'}
             </Button>
           </div>
 
-          {/* AI Correlation Insight Card */}
+          {/* AI Intelligence Dossier Card */}
           <div
             style={{
-              background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
-              border: '1px solid rgba(79, 70, 229, 0.25)',
-              borderRadius: 'var(--radius-md)',
-              padding: '1.15rem',
-              boxShadow: '0 4px 20px -4px rgba(79, 70, 229, 0.15)'
+              background: 'linear-gradient(145deg, rgba(24, 36, 66, 0.85) 0%, rgba(13, 18, 34, 0.95) 100%)',
+              border: '1px solid rgba(99, 102, 241, 0.35)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '1.35rem',
+              boxShadow: '0 8px 32px -4px rgba(0, 0, 0, 0.5), 0 0 25px rgba(99, 102, 241, 0.15)'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
-                <SparklesIcon size={16} style={{ color: '#c084fc' }} />
-                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#e2e8f0' }}>
-                  AI Incident Correlation
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: '6px',
+                  background: 'rgba(168, 85, 247, 0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#c084fc'
+                }}>
+                  <SparklesIcon size={16} />
+                </div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#f8fafc', letterSpacing: '-0.01em' }}>
+                  AI Incident Clustering Dossier
                 </span>
               </div>
               {incident.is_emerging && (
-                <span
-                  style={{
-                    background: 'rgba(239, 68, 68, 0.2)',
-                    color: '#f87171',
-                    border: '1px solid rgba(239, 68, 68, 0.4)',
-                    padding: '0.15rem 0.55rem',
-                    borderRadius: 'var(--radius-full)',
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.3rem'
-                  }}
-                >
-                  <AlertTriangleIcon size={13} />
-                  EMERGING INCIDENT
+                <span className="badge badge-emerging">
+                  <AlertTriangleIcon size={12} />
+                  CRITICAL SPIKE
                 </span>
               )}
             </div>
 
-            <div style={{ fontSize: '1.05rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.35rem' }}>
-              {incident.title}
+            {/* Circular Match Gauge & Incident Summary Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: isGrouped ? '100px 1fr' : '1fr', gap: '1rem', alignItems: 'center', marginBottom: '1rem' }}>
+              {isGrouped && (
+                <div style={{ textAlign: 'center', position: 'relative', width: 90, height: 90, margin: '0 auto' }}>
+                  <svg viewBox="0 0 36 36" className="circular-chart" style={{ width: 90, height: 90 }}>
+                    <path
+                      className="circle-bg"
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                    <path
+                      className="circle"
+                      stroke={report.correlation_score && report.correlation_score >= 0.8 ? '#10b981' : '#3b82f6'}
+                      strokeDasharray={`${Math.round((report.correlation_score || 0.85) * 100)}, 100`}
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    />
+                  </svg>
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    lineHeight: 1
+                  }}>
+                    <span style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', fontFamily: 'var(--font-mono)' }}>
+                      {Math.round((report.correlation_score || 0.85) * 100)}%
+                    </span>
+                    <span style={{ fontSize: '0.55rem', color: 'var(--text-subtle)', textTransform: 'uppercase', marginTop: '2px', fontWeight: 700 }}>
+                      Match
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.45rem', lineHeight: 1.3 }}>
+                  {incident.title}
+                </div>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
+                  <Badge variant="category" category={incident.category}>
+                    {incident.category}
+                  </Badge>
+                  <Badge variant="severity" severity={incident.severity}>
+                    {incident.severity} SEVERITY
+                  </Badge>
+                  <Badge variant="status" status={incident.status}>
+                    {incident.status}
+                  </Badge>
+                  <span
+                    style={{
+                      fontSize: '0.75rem',
+                      color: 'var(--text-secondary)',
+                      alignSelf: 'center',
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      padding: '0.2rem 0.6rem',
+                      borderRadius: 'var(--radius-sm)',
+                      fontWeight: 600
+                    }}
+                  >
+                    {incident.report_count} {incident.report_count === 1 ? 'Report' : 'Linked Reports'}
+                  </span>
+                </div>
+              </div>
             </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.85rem' }}>
-              <Badge variant="category" category={incident.category}>
-                {incident.category}
-              </Badge>
-              <Badge variant="severity" severity={incident.severity}>
-                {incident.severity} SEVERITY
-              </Badge>
-              <Badge variant="status" status={incident.status}>
-                {incident.status}
-              </Badge>
-              <span
-                style={{
-                  fontSize: '0.75rem',
-                  color: 'var(--text-muted)',
-                  alignSelf: 'center',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: 'var(--radius-sm)'
-                }}
-              >
-                {incident.report_count} {incident.report_count === 1 ? 'Report' : 'Correlated Reports'}
-              </span>
-            </div>
-
-            {/* Explainability reasoning */}
+            {/* Explainability reasoning with highlight */}
             {report.correlation_reason && (
               <div
                 style={{
-                  background: 'rgba(0, 0, 0, 0.3)',
+                  background: 'rgba(7, 10, 19, 0.7)',
                   borderLeft: '3px solid var(--accent-primary)',
-                  padding: '0.65rem 0.85rem',
-                  borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
-                  fontSize: '0.82rem',
-                  color: '#cbd5e1',
-                  lineHeight: 1.4
+                  padding: '0.85rem 1rem',
+                  borderRadius: '0 var(--radius-md) var(--radius-md) 0',
+                  fontSize: '0.85rem',
+                  color: '#e2e8f0',
+                  lineHeight: 1.5,
+                  boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.4)'
                 }}
               >
-                <div style={{ fontWeight: 600, fontSize: '0.75rem', color: '#a5b4fc', marginBottom: '0.2rem' }}>
-                  {isGrouped ? 'Clustering Justification' : 'Anchor Incident Created'}
+                <div style={{ fontWeight: 700, fontSize: '0.75rem', color: '#a5b4fc', marginBottom: '0.3rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  {isGrouped ? '🔍 Multi-Factor Correlation Rationale' : '🎯 Anchor Incident Seeded'}
                 </div>
                 "{report.correlation_reason}"
               </div>
@@ -207,16 +246,17 @@ export const ReportReceiptModal: React.FC<ReportReceiptModalProps> = ({
           {incident.recommendation && (
             <div
               style={{
-                background: 'rgba(16, 185, 129, 0.08)',
-                border: '1px solid rgba(16, 185, 129, 0.25)',
-                borderRadius: 'var(--radius-md)',
-                padding: '0.85rem 1rem',
-                fontSize: '0.82rem',
-                color: '#d1fae5'
+                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '0.95rem 1.15rem',
+                fontSize: '0.85rem',
+                color: '#d1fae5',
+                lineHeight: 1.5
               }}
             >
-              <span style={{ fontWeight: 700, color: '#34d399', display: 'block', marginBottom: '0.2rem' }}>
-                Campus Facilities Action Notice:
+              <span style={{ fontWeight: 700, color: '#34d399', display: 'block', marginBottom: '0.3rem', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                🛠️ Campus Facilities Action Protocol:
               </span>
               {incident.recommendation}
             </div>
@@ -226,8 +266,8 @@ export const ReportReceiptModal: React.FC<ReportReceiptModalProps> = ({
         {/* Modal Footer */}
         <div
           style={{
-            padding: '1rem 1.5rem',
-            borderTop: '1px solid var(--card-border)',
+            padding: '1.15rem 1.5rem',
+            borderTop: '1px solid var(--border-subtle)',
             display: 'flex',
             gap: '0.75rem',
             justifyContent: 'flex-end',

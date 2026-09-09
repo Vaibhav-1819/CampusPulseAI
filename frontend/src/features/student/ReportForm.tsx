@@ -101,44 +101,49 @@ export const ReportForm: React.FC<ReportFormProps> = ({ onSuccess }) => {
       {/* Demo Scenario Quick-Fill Bar */}
       <div
         style={{
-          background: 'rgba(79, 70, 229, 0.08)',
-          border: '1px solid rgba(79, 70, 229, 0.2)',
-          borderRadius: 'var(--radius-md)',
-          padding: '0.65rem 0.95rem',
-          marginBottom: '1.5rem',
+          background: 'linear-gradient(135deg, rgba(79, 70, 229, 0.12) 0%, rgba(6, 182, 212, 0.08) 100%)',
+          border: '1px solid rgba(99, 102, 241, 0.3)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '0.85rem 1.15rem',
+          marginBottom: '1.75rem',
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: '0.5rem'
+          gap: '0.75rem',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-          <SparklesIcon size={16} style={{ color: '#c084fc' }} />
-          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#e2e8f0' }}>
-            Quick Demo Presets:
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <SparklesIcon size={18} style={{ color: '#c084fc' }} />
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#e2e8f0', letterSpacing: '-0.01em' }}>
+            Quick Demo Scenarios:
           </span>
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-          {DEMO_PRESETS.map((p) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          {DEMO_PRESETS.map((p, idx) => (
             <button
               key={p.title}
               type="button"
               id={`preset-${p.title.toLowerCase().replace(/\s+/g, '-')}`}
               onClick={() => handleApplyPreset(p)}
+              className="card-3d-lift"
               style={{
                 background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid var(--card-border)',
-                color: 'var(--text-main)',
-                fontSize: '0.75rem',
-                fontWeight: 500,
-                padding: '0.25rem 0.6rem',
-                borderRadius: 'var(--radius-sm)',
+                border: '1px solid var(--border-medium)',
+                color: 'var(--text-primary)',
+                fontSize: '0.775rem',
+                fontWeight: 600,
+                padding: '0.35rem 0.75rem',
+                borderRadius: 'var(--radius-md)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease'
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem'
               }}
             >
-              {p.title}
+              <span className="kbd-tag">{idx + 1}</span>
+              <span>{p.title}</span>
             </button>
           ))}
         </div>

@@ -40,11 +40,13 @@ export const IncidentDetailModal: React.FC<IncidentDetailModalProps> = ({
   const [triageNotes, setTriageNotes] = useState('');
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [triageSuccessMsg, setTriageSuccessMsg] = useState<string | null>(null);
+  const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (incident) {
       setSelectedStatus(incident.status);
       loadIncidentDetail(incident.id);
+      setCompletedTasks({});
     }
   }, [incident]);
 
@@ -245,34 +247,84 @@ export const IncidentDetailModal: React.FC<IncidentDetailModalProps> = ({
               {/* AI Summary Box */}
               {incident.summary && (
                 <div style={{
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
-                  border: '1px solid rgba(59, 130, 246, 0.3)',
-                  borderRadius: '10px',
-                  padding: '1.15rem'
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%)',
+                  border: '1px solid rgba(59, 130, 246, 0.35)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '1.25rem',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#60a5fa', fontWeight: 700, fontSize: '0.9rem', marginBottom: '6px' }}>
-                    <Sparkles size={18} /> AI Executive Incident Synthesis
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#60a5fa', fontWeight: 700, fontSize: '0.9rem', marginBottom: '8px' }}>
+                    <div style={{ background: 'rgba(59, 130, 246, 0.2)', padding: '5px', borderRadius: '6px', display: 'flex' }}>
+                      <Sparkles size={16} />
+                    </div>
+                    <span>AI Executive Incident Synthesis</span>
                   </div>
-                  <p style={{ fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+                  <p style={{ fontSize: '0.875rem', color: '#f1f5f9', lineHeight: 1.6, margin: 0 }}>
                     {incident.summary}
                   </p>
                 </div>
               )}
 
-              {/* AI Facilities Recommendation */}
+              {/* AI Facilities Recommendation & Interactive Triage Checklist */}
               {incident.recommendation && (
                 <div style={{
-                  background: 'rgba(16, 185, 129, 0.08)',
-                  border: '1px solid rgba(16, 185, 129, 0.3)',
-                  borderRadius: '10px',
-                  padding: '1.15rem'
+                  background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%)',
+                  border: '1px solid rgba(16, 185, 129, 0.35)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '1.25rem',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#34d399', fontWeight: 700, fontSize: '0.9rem', marginBottom: '6px' }}>
-                    <Wrench size={18} /> Recommended Facilities Action
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#34d399', fontWeight: 700, fontSize: '0.9rem' }}>
+                      <div style={{ background: 'rgba(16, 185, 129, 0.2)', padding: '5px', borderRadius: '6px', display: 'flex' }}>
+                        <Wrench size={16} />
+                      </div>
+                      <span>Recommended Facilities Action Protocol</span>
+                    </div>
+                    <span className="kbd-tag" style={{ color: '#34d399' }}>AI Recommended</span>
                   </div>
-                  <p style={{ fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.5 }}>
+                  <p style={{ fontSize: '0.875rem', color: '#e2e8f0', lineHeight: 1.6, marginBottom: '1rem' }}>
                     {incident.recommendation}
                   </p>
+
+                  {/* Interactive Admin Checklist */}
+                  <div style={{ background: 'rgba(7, 10, 19, 0.6)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem', letterSpacing: '0.04em' }}>
+                      Facilities Triage Checklist
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                      {[
+                        `Dispatch technician to ${incident.building}`,
+                        'Inspect physical infrastructure & safety perimeter',
+                        'Execute repair and test for recurrence',
+                        'Broadcast status resolution to affected students'
+                      ].map((task, i) => {
+                        const isDone = Boolean(completedTasks[task]);
+                        return (
+                          <label
+                            key={i}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              fontSize: '0.825rem',
+                              color: isDone ? 'var(--text-subtle)' : '#e2e8f0',
+                              textDecoration: isDone ? 'line-through' : 'none',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isDone}
+                              onChange={(e) => setCompletedTasks({ ...completedTasks, [task]: e.target.checked })}
+                              style={{ accentColor: '#10b981', cursor: 'pointer' }}
+                            />
+                            <span>{task}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               )}
 
