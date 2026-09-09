@@ -81,14 +81,14 @@ DATABASE_PATH=./data/campuspulse.db
 - [x] Establish Canonical Demo Dataset (`demo-data/demo-scenario.json`)
 - [x] Initialize Directory Scaffolding (`/frontend`, `/backend`, `/docs`, `/demo-data`, `/tests`)
 
-### Phase 2: Backend Foundation & Database (Hour 3 - 8) — **[Owner: Dev 1]**
+### Phase 2: Backend Foundation & Database (Hour 3 - 8) — **[Owner: Dev 1 — Vaibhav Bharathula]**
 - [x] Initialize Node.js + TypeScript Express setup in `/backend`
 - [x] Implement SQLite schema generator and migration runner in `/backend/src/db`
 - [x] Implement Repository accessors for `users`, `reports`, `incidents`, `incident_events`
 - [x] Wire up Express base server, CORS, JSON parsing, and centralized error middleware
 - [x] Add basic healthcheck endpoint (`GET /api/health`)
 
-### Phase 3: Student Reporting Flow (Hour 8 - 14) — **[Owner: Dev 2]**
+### Phase 3: Student Reporting Flow (Hour 8 - 14) — **[Owner: Dev 2 — Sreeshanth S]**
 - [x] Initialize React + TypeScript + Vite project in `/frontend`
 - [x] Set up design system tokens, typography, and palette in `/frontend/src/index.css`
 - [x] Implement Student reporting view (`/frontend/src/features/student/ReportForm.tsx`)
@@ -97,7 +97,7 @@ DATABASE_PATH=./data/campuspulse.db
 - [x] Implement submission success card with ticket tracking ID
 - [x] Connect with Mock API (`/frontend/src/services/mockApi.ts`) matching API contract
 
-### Phase 4: Admin Dashboard Shell & Views (Hour 14 - 20) — **[Owner: Dev 3]**
+### Phase 4: Admin Dashboard Shell & Views (Hour 14 - 20) — **[Owner: Dev 3 — Vignesh Mandadapu]**
 - [x] Implement Admin Dashboard layout (`/frontend/src/features/admin/AdminDashboard.tsx`)
 - [x] Build key metric stats cards (Active Incidents, Emerging Alerts, Unassigned Reports, Resolved)
 - [x] Build Incident Grid/List with status chips, severity badges, and emerging tags
@@ -109,34 +109,34 @@ DATABASE_PATH=./data/campuspulse.db
   - Status mutation buttons (Investigating, In Progress, Resolved, Closed)
 - [x] Connect with Mock API fixtures matching API contract
 
-### Phase 5: AI Understanding & Classification (Hour 20 - 26) — **[Owner: Dev 1]**
+### Phase 5: AI Understanding & Classification (Hour 20 - 26) — **[Owner: Dev 1 — Vaibhav Bharathula]**
 - [x] Implement `AIService` interface in `/backend/src/ai/aiService.ts`
 - [x] Implement `MockAIService` with deterministic keyword extraction and normalized vectors
 - [x] Implement `GeminiAIService` using Google Gemini structured output schemas
 - [x] Implement AI status handling (`PENDING`, `COMPLETED`, `FAILED`) with automatic fallback
 - [x] Connect `ReportService` to AI pipeline on report submission
 
-### Phase 6: Incident Correlation Engine (Hour 26 - 32) — **[Owner: Dev 1]**
+### Phase 6: Incident Correlation Engine (Hour 26 - 32) — **[Owner: Dev 1 — Vaibhav Bharathula]**
 - [x] Implement `CorrelationEngine` with multi-factor scoring formula:
   `Score = 0.55*Sim + 0.20*Loc + 0.15*Cat + 0.10*Time`
 - [x] Implement in-memory Cosine Similarity for vector comparison
 - [x] Implement human-readable correlation explainability text generator
 - [x] Write unit tests verifying report clustering behavior against threshold (0.68)
 
-### Phase 7: Severity, Impact & Emerging Detection (Hour 32 - 36) — **[Owner: Dev 1]**
+### Phase 7: Severity, Impact & Emerging Detection (Hour 32 - 36) — **[Owner: Dev 1 — Vaibhav Bharathula]**
 - [x] Implement `SeverityImpactCalculator` (impact 0-100, severity tiering)
 - [x] Implement `EmergingIncidentDetector` (velocity threshold: >= 3 reports in 60m or 2x spike)
 - [x] Implement incident event logging for severity changes and emerging flags
 - [x] Trigger AI Summary and Facilities Recommendation generation on incident updates
 
-### Phase 8: End-to-End Frontend/Backend Integration (Hour 36 - 40) — **[Owner: Dev 4 + Team]**
+### Phase 8: End-to-End Frontend/Backend Integration (Hour 36 - 40) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
 - [ ] Replace frontend Mock API client with live backend `fetch` calls
 - [ ] Verify CORS, headers, and error payload parsing
 - [ ] Verify that submitting a report via Student UI immediately creates/updates an incident
 - [ ] Verify that Admin UI live updates incident list, severity, and timeline
 - [ ] Fix integration edge cases and boundary mismatches
 
-### Phase 9: Demo Data Seeder & Polish (Hour 40 - 44) — **[Owner: Dev 4]**
+### Phase 9: Demo Data Seeder & Polish (Hour 40 - 44) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
 - [ ] Build CLI command: `npm run db:seed-demo`
 - [ ] Test canonical demo sequence:
   - 1st report: "WiFi slow in CSE Block" → New Incident Created
@@ -145,7 +145,7 @@ DATABASE_PATH=./data/campuspulse.db
   - 4th report: Unrelated "Water leak in Library 2nd floor" → Creates separate Plumbing Incident
 - [ ] Verify AI explainability text accurately highlights why CSE reports were clustered
 
-### Phase 10: Final Verification, Polish & Demo Script (Hour 44 - 48) — **[Owner: Dev 4]**
+### Phase 10: Final Verification, Polish & Demo Script (Hour 44 - 48) — **[Owner: Dev 4 — Sumanth Teju & Vaibhav Bharathula]**
 - [ ] Run full automated test suite (`npm test`)
 - [ ] Verify UI responsiveness, dark/light contrast, empty states, and loading spinners
 - [ ] Write Demo Walkthrough Script in `/docs/DEMO_SCRIPT.md`
@@ -168,7 +168,7 @@ When completing any significant task, paste a log entry below using this templat
 ```
 
 ### Log Entries
-- **2026-09-08 12:30 [Developer 2 — Student Frontend Owner]**
+- **2026-09-08 12:30 [Developer 2 — Sreeshanth S (Student Frontend Owner)]**
   - **Component:** Student Frontend Portal (`/frontend/src/**`)
   - **Implemented:**
     - Scaffolded React 18 + TypeScript + Vite architecture in `/frontend` with strict typings and path aliases.
@@ -189,7 +189,7 @@ When completing any significant task, paste a log entry below using this templat
   - **Remaining Tasks:** Developer 3 can build the Admin Dashboard; Developer 4 can run end-to-end integration with the Express backend.
   - **Testing Instructions:** Run `cd frontend && npm run dev` and open `http://localhost:5173`.
 
-- **2026-09-07 19:00 [Developer 3 — Admin Frontend Owner]**
+- **2026-09-07 19:00 [Developer 3 — Vignesh Mandadapu (Admin Frontend Owner)]**
   - **Component:** Admin Incident Command Center & Telemetry UI (`/frontend/src/features/admin/**`)
   - **Implemented:**
     - Built Admin Dashboard shell (`AdminDashboard.tsx`) with real-time KPI metrics header (`StatsBar.tsx`).
@@ -204,7 +204,7 @@ When completing any significant task, paste a log entry below using this templat
   - **API Changes:** None (100% compliant with `/shared/api-contract.md`).
   - **Testing Instructions:** Run `cd frontend && npm run dev` to start Vite dev server on `http://localhost:5173`. Toggle between live API and mock modes using top status badge.
 
-- **2026-09-07 16:45 [Developer 1 — Backend & Architecture Owner]**
+- **2026-09-07 16:45 [Developer 1 — Vaibhav Bharathula (Backend & Architecture Owner)]**
   - **Component:** Backend REST API, Database Layer, AIService & Incident Intelligence Engine
   - **Implemented:**
     - Initialized Express + TypeScript environment with SQLite persistence (WAL mode & foreign keys enabled).
