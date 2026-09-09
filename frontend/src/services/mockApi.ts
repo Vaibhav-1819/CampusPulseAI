@@ -4,12 +4,13 @@ import {
   IncidentEvent, 
   DashboardStats, 
   IncidentStatus,
-  CreateReportRequest
-} from '@shared/types';
+  CreateReportRequest,
+  CreateReportResponseData
+} from '../types';
 
 /**
  * Pre-seeded mock data fixtures matching demo-scenario.json and shared/api-contract.md.
- * Enables 100% offline standalone execution of the Admin Dashboard with full data consistency.
+ * Enables 100% offline standalone execution of the Admin Dashboard and Student Portal with full data consistency.
  */
 
 let mockIncidents: Incident[] = [
@@ -339,8 +340,6 @@ export const mockApiService = {
   async getDashboardStats(): Promise<DashboardStats> {
     const active = mockIncidents.filter(i => i.status !== 'RESOLVED' && i.status !== 'CLOSED').length;
     const emerging = mockIncidents.filter(i => i.is_emerging && i.status !== 'RESOLVED' && i.status !== 'CLOSED').length;
-    
-    // Dynamic exact report count across all mock reports
     const totalReports = mockReports.length;
 
     return {
@@ -440,7 +439,7 @@ export const mockApiService = {
     };
   },
 
-  async submitReport(data: CreateReportRequest): Promise<{ report: Report; incident: Incident }> {
+  async submitReport(data: CreateReportRequest): Promise<CreateReportResponseData> {
     const newReportId = `rep_${Math.random().toString(36).substring(2, 9)}`;
     const now = new Date().toISOString();
 
@@ -520,3 +519,14 @@ export const mockApiService = {
     };
   }
 };
+
+/**
+ * MockApiClient class with static submitReport for reportService.ts
+ */
+export class MockApiClient {
+  static async submitReport(payload: CreateReportRequest): Promise<CreateReportResponseData> {
+    // Natural simulated AI latency (400ms)
+    await new Promise((res) => setTimeout(res, 400));
+    return await mockApiService.submitReport(payload);
+  }
+}

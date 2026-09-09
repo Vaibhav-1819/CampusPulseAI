@@ -5,11 +5,12 @@ import {
   DashboardStats, 
   IncidentStatus,
   CreateReportRequest,
+  CreateReportResponseData,
   ApiResponse
-} from '@shared/types';
+} from '../types';
 import { mockApiService } from './mockApi';
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 
 export interface IncidentFilterParams {
   status?: string;
@@ -18,7 +19,50 @@ export interface IncidentFilterParams {
   is_emerging?: boolean;
 }
 
-class ApiClient {
+/**
+ * LiveApiClient: Direct static API client utilized by Student Portal reportService
+ */
+export class LiveApiClient {
+  static async checkHealth(): Promise<boolean> {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1800);
+      const res = await fetch(`${API_BASE_URL}/health`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      if (!res.ok) return false;
+      const json = await res.json();
+      return json.success === true;
+    } catch {
+      return false;
+    }
+  }
+
+  static async submitReport(payload: CreateReportRequest): Promise<CreateReportResponseData> {
+    const res = await fetch(`${API_BASE_URL}/reports`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const json: ApiResponse<CreateReportResponseData> = await res.json();
+
+    if (!res.ok || !json.success || !json.data) {
+      const errorMessage = json.error?.message || `Request failed with status ${res.status}`;
+      throw new Error(errorMessage);
+    }
+
+    return json.data;
+  }
+}
+
+/**
+ * ApiClient: Stateful API client with mock fallback utilized by Admin Command Center
+ */
+export class ApiClient {
   private useMockFallback: boolean = false;
   private forceMockMode: boolean = false;
 
@@ -126,11 +170,11 @@ class ApiClient {
   }
 
   /**
-   * Submit a new student report (for preview & testing)
+   * Submit a new student report
    */
-  async submitReport(payload: CreateReportRequest): Promise<{ report: Report; incident: Incident }> {
+  async submitReport(payload: CreateReportRequest): Promise<CreateReportResponseData> {
     try {
-      return await this.request<{ report: Report; incident: Incident }>('/reports', {
+      return await this.request<CreateReportResponseData>('/reports', {
         method: 'POST',
         body: JSON.stringify(payload),
       });
@@ -147,7 +191,7 @@ class ApiClient {
       return false;
     }
     try {
-      const res = await fetch('/api/health');
+      const res = await fetch(`${API_BASE_URL}/health`);
       return res.ok;
     } catch {
       return false;
@@ -156,3 +200,4 @@ class ApiClient {
 }
 
 export const api = new ApiClient();
+
